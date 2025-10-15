@@ -1,0 +1,13 @@
+.container {
+    width: 500px;
+}
+
+body {
+    background-color: #3980a7;
+}
+
+button {
+    background-color: #FE7743 !important;
+    border: none;
+}
+
