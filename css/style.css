@@ -1,13 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Coiny&family=Poppins:wght@100;400&family=Roboto:ital,wght@0,100..900;1,100..900&family=Sansation:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
+
+body {
+    background-color: #3980a7;
+    font-family: "Roboto";
+}
+
 .container {
     width: 500px;
 }
 
-body {
-    background-color: #3980a7;
-}
-
-button {
+form button {
     background-color: #FE7743 !important;
     border: none;
 }
+
+form button:active {
+    transform: scale(0.989);
+}
+
+
+.logo {
+    width: 40%;
+    height: 40%;
+}
+
 
