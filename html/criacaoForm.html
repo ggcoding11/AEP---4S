@@ -21,41 +21,111 @@
           <img
             src="../img/logo_foto.png"
             alt="Logo"
-            width="60"
-            height="60"
+            width="40"
+            height="40"
             class="d-inline-block align-text-top"
           />
           <img src="../img/nome_logo.png" alt="" width="100" />
         </a>
 
         <div class="dropdown-center">
-          <img
-            src="../img/foto_perfil.png"
-            alt=""
-            class="foto_perfil dropdown-toggle"
-            data-bs-toggle="dropdown"
-            data-bs-display="static"
-            aria-expanded="false"
-          />
-
-          <ul class="dropdown-menu">
-            <li><button class="dropdown-item" type="button">Action</button></li>
-            <li>
-              <button class="dropdown-item" type="button">
-                Another action
-              </button>
-            </li>
-            <li>
-              <button class="dropdown-item" type="button">
-                Something else here
-              </button>
-            </li>
-          </ul>
+          <a href="#">
+            <img
+              src="../img/foto_perfil.png"
+              alt=""
+              class="foto_perfil dropdown-toggle"
+              data-bs-toggle="dropdown"
+              data-bs-display="static"
+              aria-expanded="false"
+            />
+          </a>
         </div>
       </div>
     </nav>
 
-    <div class="container"></div>
+    <div class="container mt-4">
+      <h1>Elaboração do desafio</h1>
+      <p>Preencha os campos a seguir:</p>
+
+      <form>
+        <div class="mb-3">
+          <label for="minha-posicao" class="form-label fw-semibold"
+            >Minha posição (min: 60 caracteres):
+          </label>
+          <textarea class="form-control" id="minha-posicao" rows="3"></textarea>
+
+          <div id="posicaoHelp" class="form-text">
+            Ex: "sou cabeleireiro e trabalho sozinho..."
+          </div>
+        </div>
+
+        <hr>
+
+        <div class="mb-3">
+          <label for="processo-negocio" class="form-label fw-semibold"
+            >Meu processo de negócio atual (min: 80 caracteres):
+          </label>
+          <textarea
+            class="form-control"
+            id="processo-negocio"
+            rows="3"
+          ></textarea>
+
+          <div id="processoHelp" class="form-text">
+            Ex: "tento usar planilhas para organizar as vendas..."
+          </div>
+        </div>
+
+        <hr>
+
+        <div class="mb-3">
+          <label for="problemas-encontrados" class="form-label fw-semibold"
+            >Quais problemas encontro? (min: 80 caracteres):
+          </label>
+          <textarea
+            class="form-control"
+            id="problemas-encontrados"
+            rows="3"
+          ></textarea>
+
+          <div id="problemaHelp" class="form-text">
+            Ex: "me confundo com fórmulas e registro atrasado..."
+          </div>
+        </div>
+
+        <hr>
+
+        <div class="mb-3">
+          <label for="impacto-negocio" class="form-label fw-semibold"
+            >Como isso impacta meu negócio? (min: 60 caracteres):
+          </label>
+          <textarea
+            class="form-control"
+            id="impacto-negocio"
+            rows="3"
+          ></textarea>
+
+          <div id="impactoHelp" class="form-text">
+            Ex: "não sei meu lucro mensal, perco horários..."
+          </div>
+        </div>
+
+        <hr>
+
+        <div class="mb-3">
+          <label for="facilitado" class="form-label fw-semibold"
+            >O que gostaria que fosse facilitado? (min: 60 caracteres):
+          </label>
+          <textarea class="form-control" id="facilitado" rows="3"></textarea>
+
+          <div id="facilitadoHelp" class="form-text">
+            Ex: "acompanhar gastos e agenda sem planilhas..."
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Enviar</button>
+      </form>
+    </div>
 
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
