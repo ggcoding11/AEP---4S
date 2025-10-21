@@ -2,3 +2,7 @@
     width: 40px;
     height: 40px;
 }
+
+body {
+    background: linear-gradient(90deg,rgba(250, 165, 51, 100) 20%, rgb(233, 109, 26) 100%);
+}
