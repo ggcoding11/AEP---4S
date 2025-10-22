@@ -52,7 +52,13 @@
           <label for="minha-posicao" class="form-label fw-semibold"
             >Minha posição (min: 60 caracteres):
           </label>
-          <textarea class="form-control" id="minha-posicao" rows="3"></textarea>
+          <textarea
+            class="form-control"
+            id="minha-posicao"
+            rows="3"
+            minlength="60"
+            required
+          ></textarea>
 
           <div id="posicaoHelp" class="form-text">
             Ex: "sou cabeleireiro e trabalho sozinho..."
@@ -69,6 +75,8 @@
             class="form-control"
             id="processo-negocio"
             rows="3"
+            minlength="80"
+            required
           ></textarea>
 
           <div id="processoHelp" class="form-text">
@@ -86,6 +94,8 @@
             class="form-control"
             id="problemas-encontrados"
             rows="3"
+            minlength="80"
+            required
           ></textarea>
 
           <div id="problemaHelp" class="form-text">
@@ -103,6 +113,8 @@
             class="form-control"
             id="impacto-negocio"
             rows="3"
+            minlength="60"
+            required
           ></textarea>
 
           <div id="impactoHelp" class="form-text">
@@ -116,7 +128,13 @@
           <label for="facilitado" class="form-label fw-semibold"
             >O que gostaria que fosse facilitado? (min: 60 caracteres):
           </label>
-          <textarea class="form-control" id="facilitado" rows="3"></textarea>
+          <textarea
+            class="form-control"
+            id="facilitado"
+            rows="3"
+            minlength="60"
+            required
+          ></textarea>
 
           <div id="facilitadoHelp" class="form-text">
             Ex: "acompanhar gastos e agenda sem planilhas..."
@@ -135,6 +153,7 @@
             id="formFileMultiple"
             accept="image/*, video/*"
             multiple
+            required
           />
         </div>
 
