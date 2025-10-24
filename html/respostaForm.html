@@ -108,21 +108,73 @@
         </p>
       </div>
 
-      <div class="d-flex align-items-center justify-content-between">
+      <div class="d-flex flex-column align-items-center gap-4">
         <img
           src="../img/imagem-enviada.jpg"
           alt=""
-          class="img-fluid rounded w-50 imagem-enviada"
+          class="img-fluid w-75 rounded imagem-enviada"
         />
-        <iframe
-          src="https://www.youtube.com/embed/J0shA9J-4Nc?si=mqBY7V3P8hv4S_Rd"
-          title="YouTube video player"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          referrerpolicy="strict-origin-when-cross-origin"
-          allowfullscreen
-          class="video-enviado"
-        ></iframe>
+        <img
+          src="../img/imagem-enviada2.jpg"
+          alt=""
+          class="img-fluid w-75 rounded imagem-enviada"
+        />
+      </div>
+
+      <div class="d-flex justify-content-center mt-4">
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModal"
+        >
+          Responder desafio
+        </button>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">
+              Envie o seu pitch (vídeo explicativo):
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <input type="file" name="" id="input-arquivo" accept="video/*"">
+
+            <label for="input-arquivo">
+              <div class="upload-container">
+                <img src="../img/upload.svg" alt="" class="img-fluid">
+              </div>
+            </label>
+            
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="button" class="btn btn-primary">Enviar</button>
+          </div>
+        </div>
       </div>
     </div>
 
