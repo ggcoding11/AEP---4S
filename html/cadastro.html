@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cadastro - InovaMEI</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <link rel="stylesheet" href="../css/styleLogin.css" />
+    <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="../css/geral.css" />
+  </head>
+  <body
+    class="d-flex justify-content-center align-items-center min-vh-100 cor-azul py-5"
+  >
+    <div class="container" style="max-width: 600px">
+      <div class="card gap-4 p-4 p-md-5 shadow-sm">
+        <a
+          href="home.html"
+          class="d-flex justify-content-center align-items-center flex-column"
+        >
+          <img src="../img/logo_certa.png" alt="Logo InovaMEI" class="logo" />
+        </a>
+        <h2 class="text-center h4 fw-bold">Crie sua conta</h2>
+
+        <ul class="nav nav-pills nav-fill mb-3" id="pills-tab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link active"
+              id="pills-aluno-tab"
+              data-bs-toggle="pill"
+              data-bs-target="#pills-aluno"
+              type="button"
+              role="tab"
+              aria-controls="pills-aluno"
+              aria-selected="true"
+            >
+              Sou Aluno
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link"
+              id="pills-empresa-tab"
+              data-bs-toggle="pill"
+              data-bs-target="#pills-empresa"
+              type="button"
+              role="tab"
+              aria-controls="pills-empresa"
+              aria-selected="false"
+            >
+              Sou Empresa (MEI/ME)
+            </button>
+          </li>
+        </ul>
+
+        <div class="tab-content" id="pills-tabContent">
+          <div
+            class="tab-pane fade show active"
+            id="pills-aluno"
+            role="tabpanel"
+            aria-labelledby="pills-aluno-tab"
+            tabindex="0"
+          >
+            <form class="needs-validation" id="form-aluno" novalidate>
+              <div class="mb-3">
+                <label for="input-nome-aluno" class="form-label fw-semibold"
+                  >Nome Completo</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="input-nome-aluno"
+                  required
+                />
+                <div class="invalid-feedback">Insira seu nome completo.</div>
+              </div>
+
+              <div class="mb-3">
+                <label for="input-email-aluno" class="form-label fw-semibold"
+                  >Email Institucional</label
+                >
+                <input
+                  type="email"
+                  class="form-control"
+                  id="input-email-aluno"
+                  placeholder="ex: seu.nome@instituicao.edu.br"
+                  required
+                />
+                <div class="invalid-feedback">
+                  Insira um email institucional válido.
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-8 mb-3">
+                  <label for="input-curso" class="form-label fw-semibold"
+                    >Curso</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="input-curso"
+                    placeholder="ex: Engenharia de Software"
+                    required
+                  />
+                  <div class="invalid-feedback">Insira seu curso.</div>
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label for="input-semestre" class="form-label fw-semibold"
+                    >Semestre</label
+                  >
+                  <select class="form-select" id="input-semestre" required>
+                    <option value="" selected disabled>...</option>
+                    <option value="1">1º</option>
+                    <option value="2">2º</option>
+                    <option value="3">3º</option>
+                    <option value="4">4º</option>
+                    <option value="5">5º</option>
+                    <option value="6">6º</option>
+                    <option value="7">7º</option>
+                    <option value="8">8º</option>
+                    <option value="9">9º</option>
+                    <option value="10">10º+</option>
+                  </select>
+                  <div class="invalid-feedback">Selecione seu semestre.</div>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="input-habilidades" class="form-label fw-semibold"
+                  >Habilidades</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="input-habilidades"
+                  placeholder="ex: React, Node.js, UI/UX"
+                  required
+                />
+                <div class="form-text">
+                  Separe suas habilidades por vírgula.
+                </div>
+                <div class="invalid-feedback">
+                  Insira pelo menos uma habilidade.
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="input-vinculo" class="form-label fw-semibold"
+                  >Comprovar Vínculo Acadêmico</label
+                >
+                <input
+                  type="file"
+                  class="form-control"
+                  id="input-vinculo"
+                  accept="image/*, .pdf"
+                  required
+                />
+                <div class="form-text">
+                  Anexe seu atestado de matrícula ou carteirinha.
+                </div>
+                <div class="invalid-feedback">Anexe um comprovante.</div>
+              </div>
+
+              <div class="mb-3">
+                <label for="input-senha-aluno" class="form-label fw-semibold"
+                  >Senha</label
+                >
+                <div class="input-group has-validation">
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="input-senha-aluno"
+                    minlength="6"
+                    required
+                  />
+                  <button
+                    class="btn btn-outline-secondary toggle-senha"
+                    type="button"
+                    data-target="input-senha-aluno"
+                    data-icon="toggle-icon-aluno"
+                  >
+                    <i class="bi bi-eye-fill" id="toggle-icon-aluno"></i>
+                  </button>
+                  <div class="invalid-feedback">
+                    A senha deve ter no mínimo 6 caracteres.
+                  </div>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label
+                  for="input-senha-aluno-confirma"
+                  class="form-label fw-semibold"
+                  >Confirmar Senha</label
+                >
+                <div class="input-group has-validation">
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="input-senha-aluno-confirma"
+                    required
+                  />
+                  <button
+                    class="btn btn-outline-secondary toggle-senha"
+                    type="button"
+                    data-target="input-senha-aluno-confirma"
+                    data-icon="toggle-icon-aluno-confirma"
+                  >
+                    <i
+                      class="bi bi-eye-fill"
+                      id="toggle-icon-aluno-confirma"
+                    ></i>
+                  </button>
+                  <div class="invalid-feedback" id="feedback-senha-aluno">
+                    As senhas não conferem.
+                  </div>
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                class="btn btn-primary text-white fw-bold rounded-2 w-100 p-2"
+                id="btn-submit-aluno"
+              >
+                <span
+                  class="spinner-border spinner-border-sm d-none"
+                  role="status"
+                  aria-hidden="true"
+                ></span>
+                <span>Cadastrar</span>
+              </button>
+            </form>
+          </div>
+
+          <div
+            class="tab-pane fade"
+            id="pills-empresa"
+            role="tabpanel"
+            aria-labelledby="pills-empresa-tab"
+            tabindex="0"
+          >
+            <form class="needs-validation" id="form-empresa" novalidate>
+              <div class="mb-3">
+                <label for="input-nome-empresa" class="form-label fw-semibold"
+                  >Nome da Empresa</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="input-nome-empresa"
+                  required
+                />
+                <div class="invalid-feedback">
+                  Insira o nome da sua empresa.
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="input-cnpj-cadastro" class="form-label fw-semibold"
+                  >CNPJ</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="input-cnpj-cadastro"
+                  placeholder="00.000.000/0000-00"
+                  required
+                />
+                <div class="invalid-feedback">Insira um CNPJ válido.</div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="input-setor" class="form-label fw-semibold"
+                    >Setor</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="input-setor"
+                    placeholder="ex: Alimentação"
+                    required
+                  />
+                  <div class="invalid-feedback">Insira seu setor.</div>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="input-cidade" class="form-label fw-semibold"
+                    >Cidade</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="input-cidade"
+                    placeholder="ex: Maringá - PR"
+                    required
+                  />
+                  <div class="invalid-feedback">Insira sua cidade.</div>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="input-email-empresa" class="form-label fw-semibold"
+                  >Email de Contato</label
+                >
+                <input
+                  type="email"
+                  class="form-control"
+                  id="input-email-empresa"
+                  required
+                />
+                <div class="invalid-feedback">Insira um email válido.</div>
+              </div>
+
+              <div class="mb-3">
+                <label for="input-senha-empresa" class="form-label fw-semibold"
+                  >Senha</label
+                >
+                <div class="input-group has-validation">
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="input-senha-empresa"
+                    minlength="6"
+                    required
+                  />
+                  <button
+                    class="btn btn-outline-secondary toggle-senha"
+                    type="button"
+                    data-target="input-senha-empresa"
+                    data-icon="toggle-icon-empresa"
+                  >
+                    <i class="bi bi-eye-fill" id="toggle-icon-empresa"></i>
+                  </button>
+                  <div class="invalid-feedback">
+                    A senha deve ter no mínimo 6 caracteres.
+                  </div>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label
+                  for="input-senha-empresa-confirma"
+                  class="form-label fw-semibold"
+                  >Confirmar Senha</label
+                >
+                <div class="input-group has-validation">
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="input-senha-empresa-confirma"
+                    required
+                  />
+                  <button
+                    class="btn btn-outline-secondary toggle-senha"
+                    type="button"
+                    data-target="input-senha-empresa-confirma"
+                    data-icon="toggle-icon-empresa-confirma"
+                  >
+                    <i
+                      class="bi bi-eye-fill"
+                      id="toggle-icon-empresa-confirma"
+                    ></i>
+                  </button>
+                  <div class="invalid-feedback" id="feedback-senha-empresa">
+                    As senhas não conferem.
+                  </div>
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                class="btn btn-primary text-white fw-bold rounded-2 w-100 p-2"
+                id="btn-submit-empresa"
+              >
+                <span
+                  class="spinner-border spinner-border-sm d-none"
+                  role="status"
+                  aria-hidden="true"
+                ></span>
+                <span>Cadastrar</span>
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <div class="text-center mt-3">
+          <p class="mb-0">
+            Já tem conta?
+            <a href="login.html" class="fw-semibold">Login Aluno</a> /
+            <a href="login.html" class="fw-semibold">Login Empresa</a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.9/jquery.inputmask.min.js"></script>
+
+    <script>
+      // --- 1. MÁSCARA DE CNPJ ---
+      $(document).ready(function () {
+        $("#input-cnpj-cadastro").inputmask("99.999.999/9999-99");
+      });
+
+      // --- 2. SCRIPTS DE VALIDAÇÃO (JS PURO) ---
+      (() => {
+        "use strict";
+
+        // --- VALIDAÇÃO GERAL DO BOOTSTRAP ---
+        function handleFormSubmit(form) {
+          form.addEventListener(
+            "submit",
+            (event) => {
+              if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+              } else {
+                // Se o formulário for válido, simula o cadastro
+                event.preventDefault();
+                const submitButton = form.querySelector(
+                  'button[type="submit"]'
+                );
+                const spinner =
+                  submitButton.querySelector(".spinner-border-sm");
+                const buttonText =
+                  submitButton.querySelector("span:last-child");
+
+                // Ativa o feedback de carregamento
+                submitButton.disabled = true;
+                spinner.classList.remove("d-none");
+                buttonText.textContent = "Cadastrando...";
+
+                // SIMULAÇÃO: Cadastro
+                setTimeout(() => {
+                  alert(
+                    "Cadastro efetuado com sucesso! (Simulação)\nVocê será redirecionado para o login."
+                  );
+                  // Redireciona para o login apropriado
+                  if (form.id === "form-aluno") {
+                    window.location.href = "login.html";
+                  } else {
+                    window.location.href = "login.html";
+                  }
+                }, 2000);
+              }
+
+              form.classList.add("was-validated");
+            },
+            false
+          );
+        }
+
+        const formAluno = document.getElementById("form-aluno");
+        const formEmpresa = document.getElementById("form-empresa");
+        handleFormSubmit(formAluno);
+        handleFormSubmit(formEmpresa);
+
+        // --- 3. MOSTRAR/ESCONDER SENHA (para múltiplos botões) ---
+        const toggleButtons = document.querySelectorAll(".toggle-senha");
+
+        toggleButtons.forEach((button) => {
+          button.addEventListener("click", () => {
+            const targetInput = document.getElementById(button.dataset.target);
+            const targetIcon = document.getElementById(button.dataset.icon);
+
+            if (targetInput.type === "password") {
+              targetInput.type = "text";
+              targetIcon.classList.remove("bi-eye-fill");
+              targetIcon.classList.add("bi-eye-slash-fill");
+            } else {
+              targetInput.type = "password";
+              targetIcon.classList.remove("bi-eye-slash-fill");
+              targetIcon.classList.add("bi-eye-fill");
+            }
+          });
+        });
+
+        // --- 4. VERIFICAÇÃO DE "CONFIRMAR SENHA" ---
+        function validatePasswordMatch(
+          passwordInput,
+          confirmPasswordInput,
+          feedbackElement
+        ) {
+          function validate() {
+            if (passwordInput.value !== confirmPasswordInput.value) {
+              confirmPasswordInput.setCustomValidity("As senhas não conferem.");
+              feedbackElement.textContent = "As senhas não conferem.";
+            } else {
+              confirmPasswordInput.setCustomValidity("");
+            }
+          }
+          passwordInput.addEventListener("input", validate);
+          confirmPasswordInput.addEventListener("input", validate);
+        }
+
+        // Validação para formulário de Aluno
+        validatePasswordMatch(
+          document.getElementById("input-senha-aluno"),
+          document.getElementById("input-senha-aluno-confirma"),
+          document.getElementById("feedback-senha-aluno")
+        );
+
+        // Validação para formulário de Empresa
+        validatePasswordMatch(
+          document.getElementById("input-senha-empresa"),
+          document.getElementById("input-senha-empresa-confirma"),
+          document.getElementById("feedback-senha-empresa")
+        );
+      })();
+    </script>
+  </body>
+</html>

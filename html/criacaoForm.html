@@ -15,9 +15,12 @@
     <link rel="stylesheet" href="../css/geral.css" />
   </head>
   <body>
-    <nav class="navbar bg-body-tertiary cor-azul">
+    <nav class="navbar cor-azul" data-bs-theme="dark">
       <div class="container d-flex">
-        <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+        <a
+          class="navbar-brand d-flex align-items-center gap-2"
+          href="home.html"
+        >
           <img
             src="../img/logo_foto.png"
             alt="Logo"
@@ -28,139 +31,193 @@
           <img src="../img/nome_logo.png" alt="" width="100" />
         </a>
 
-        <div class="dropdown-center">
-          <a href="#">
+        <div class="dropdown">
+          <a
+            href="#"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
             <img
               src="../img/foto_perfil.png"
-              alt=""
-              class="foto_perfil dropdown-toggle"
-              data-bs-toggle="dropdown"
-              data-bs-display="static"
-              aria-expanded="false"
+              alt="Foto do Perfil"
+              class="foto_perfil rounded-circle"
             />
           </a>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="#">Meu Perfil</a></li>
+            <li><a class="dropdown-item" href="#">Meus Desafios</a></li>
+            <li><hr class="dropdown-divider" /></li>
+            <li><a class="dropdown-item" href="#">Sair</a></li>
+          </ul>
         </div>
       </div>
     </nav>
 
     <div class="container mt-4">
-      <h1>Elaboração do desafio</h1>
-      <p>Preencha os campos a seguir:</p>
+      <div class="row justify-content-center">
+        <div class="col-lg-10">
+          <h1>Elaboração do desafio</h1>
+          <p>Preencha os campos a seguir:</p>
 
-      <form>
-        <div class="mb-3">
-          <label for="minha-posicao" class="form-label fw-semibold"
-            >Minha posição (min: 60 caracteres):
-          </label>
-          <textarea
-            class="form-control"
-            id="minha-posicao"
-            rows="3"
-            minlength="60"
-            required
-          ></textarea>
+          <form class="needs-validation" id="desafio-form" novalidate>
+            <div class="mb-3">
+              <label for="minha-posicao" class="form-label fw-semibold"
+                >Minha posição (min: 60 caracteres):
+              </label>
+              <textarea
+                class="form-control"
+                id="minha-posicao"
+                rows="3"
+                minlength="60"
+                required
+                data-counter-id="posicao-counter"
+              ></textarea>
+              <div id="posicaoHelp" class="form-text">
+                Ex: "sou cabeleireiro e trabalho sozinho..."
+              </div>
+              <div class="form-text text-end">
+                <span id="posicao-counter">0</span> / 60
+              </div>
+              <div class="invalid-feedback">
+                Por favor, preencha sua posição com pelo menos 60 caracteres.
+              </div>
+            </div>
 
-          <div id="posicaoHelp" class="form-text">
-            Ex: "sou cabeleireiro e trabalho sozinho..."
-          </div>
+            <hr />
+
+            <div class="mb-3">
+              <label for="processo-negocio" class="form-label fw-semibold"
+                >Meu processo de negócio atual (min: 80 caracteres):
+              </label>
+              <textarea
+                class="form-control"
+                id="processo-negocio"
+                rows="3"
+                minlength="80"
+                required
+                data-counter-id="processo-counter"
+              ></textarea>
+              <div id="processoHelp" class="form-text">
+                Ex: "tento usar planilhas para organizar as vendas..."
+              </div>
+              <div class="form-text text-end">
+                <span id="processo-counter">0</span> / 80
+              </div>
+              <div class="invalid-feedback">
+                Por favor, descreva seu processo com pelo menos 80 caracteres.
+              </div>
+            </div>
+
+            <hr />
+
+            <div class="mb-3">
+              <label for="problemas-encontrados" class="form-label fw-semibold"
+                >Quais problemas encontro? (min: 80 caracteres):
+              </label>
+              <textarea
+                class="form-control"
+                id="problemas-encontrados"
+                rows="3"
+                minlength="80"
+                required
+                data-counter-id="problemas-counter"
+              ></textarea>
+              <div id="problemaHelp" class="form-text">
+                Ex: "me confundo com fórmulas e registro atrasado..."
+              </div>
+              <div class="form-text text-end">
+                <span id="problemas-counter">0</span> / 80
+              </div>
+              <div class="invalid-feedback">
+                Por favor, descreva os problemas com pelo menos 80 caracteres.
+              </div>
+            </div>
+
+            <hr />
+
+            <div class="mb-3">
+              <label for="impacto-negocio" class="form-label fw-semibold"
+                >Como isso impacta meu negócio? (min: 60 caracteres):
+              </label>
+              <textarea
+                class="form-control"
+                id="impacto-negocio"
+                rows="3"
+                minlength="60"
+                required
+                data-counter-id="impacto-counter"
+              ></textarea>
+              <div id="impactoHelp" class="form-text">
+                Ex: "não sei meu lucro mensal, perco horários..."
+              </div>
+              <div class="form-text text-end">
+                <span id="impacto-counter">0</span> / 60
+              </div>
+              <div class="invalid-feedback">
+                Por favor, descreva o impacto com pelo menos 60 caracteres.
+              </div>
+            </div>
+
+            <hr />
+
+            <div class="mb-3">
+              <label for="facilitado" class="form-label fw-semibold"
+                >O que gostaria que fosse facilitado? (min: 60 caracteres):
+              </label>
+              <textarea
+                class="form-control"
+                id="facilitado"
+                rows="3"
+                minlength="60"
+                required
+                data-counter-id="facilitado-counter"
+              ></textarea>
+              <div id="facilitadoHelp" class="form-text">
+                Ex: "acompanhar gastos e agenda sem planilhas..."
+              </div>
+              <div class="form-text text-end">
+                <span id="facilitado-counter">0</span> / 60
+              </div>
+              <div class="invalid-feedback">
+                Por favor, descreva o que facilitar com pelo menos 60
+                caracteres.
+              </div>
+            </div>
+
+            <hr />
+
+            <div class="mb-4">
+              <label for="formFileMultiple" class="form-label fw-semibold"
+                >Anexar imagens e vídeos (Opcional):</label
+              >
+              <input
+                class="form-control"
+                type="file"
+                id="formFileMultiple"
+                accept="image/*, video/*"
+                multiple
+              />
+            </div>
+
+            <div class="d-flex mb-3 justify-content-center">
+              <button
+                type="submit"
+                class="btn btn-primary w-100 w-lg-25"
+                id="btn-submit"
+              >
+                <span
+                  class="spinner-border spinner-border-sm d-none"
+                  role="status"
+                  aria-hidden="true"
+                  id="btn-spinner"
+                ></span>
+                <span id="btn-text">Enviar</span>
+              </button>
+            </div>
+          </form>
         </div>
-
-        <hr />
-
-        <div class="mb-3">
-          <label for="processo-negocio" class="form-label fw-semibold"
-            >Meu processo de negócio atual (min: 80 caracteres):
-          </label>
-          <textarea
-            class="form-control"
-            id="processo-negocio"
-            rows="3"
-            minlength="80"
-            required
-          ></textarea>
-
-          <div id="processoHelp" class="form-text">
-            Ex: "tento usar planilhas para organizar as vendas..."
-          </div>
-        </div>
-
-        <hr />
-
-        <div class="mb-3">
-          <label for="problemas-encontrados" class="form-label fw-semibold"
-            >Quais problemas encontro? (min: 80 caracteres):
-          </label>
-          <textarea
-            class="form-control"
-            id="problemas-encontrados"
-            rows="3"
-            minlength="80"
-            required
-          ></textarea>
-
-          <div id="problemaHelp" class="form-text">
-            Ex: "me confundo com fórmulas e registro atrasado..."
-          </div>
-        </div>
-
-        <hr />
-
-        <div class="mb-3">
-          <label for="impacto-negocio" class="form-label fw-semibold"
-            >Como isso impacta meu negócio? (min: 60 caracteres):
-          </label>
-          <textarea
-            class="form-control"
-            id="impacto-negocio"
-            rows="3"
-            minlength="60"
-            required
-          ></textarea>
-
-          <div id="impactoHelp" class="form-text">
-            Ex: "não sei meu lucro mensal, perco horários..."
-          </div>
-        </div>
-
-        <hr />
-
-        <div class="mb-3">
-          <label for="facilitado" class="form-label fw-semibold"
-            >O que gostaria que fosse facilitado? (min: 60 caracteres):
-          </label>
-          <textarea
-            class="form-control"
-            id="facilitado"
-            rows="3"
-            minlength="60"
-            required
-          ></textarea>
-
-          <div id="facilitadoHelp" class="form-text">
-            Ex: "acompanhar gastos e agenda sem planilhas..."
-          </div>
-        </div>
-
-        <hr />
-
-        <div class="mb-4">
-          <label for="formFileMultiple" class="form-label fw-semibold"
-            >Anexar imagens e vídeos:</label
-          >
-          <input
-            class="form-control"
-            type="file"
-            id="formFileMultiple"
-            accept="image/*, video/*"
-            multiple
-            required
-          />
-        </div>
-
-        <div class="d-flex mb-3 justify-content-center">
-          <button type="submit" class="btn btn-primary w-25">Enviar</button>
-        </div>
-      </form>
+      </div>
     </div>
 
     <script
@@ -168,5 +225,88 @@
       integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
       crossorigin="anonymous"
     ></script>
+
+    <script>
+      // Função auto-executável para encapsular nosso código
+      (() => {
+        "use strict";
+
+        // --- 1. SCRIPT DE VALIDAÇÃO DO BOOTSTRAP ---
+        const form = document.getElementById("desafio-form");
+        const submitButton = document.getElementById("btn-submit");
+        const buttonSpinner = document.getElementById("btn-spinner");
+        const buttonText = document.getElementById("btn-text");
+
+        form.addEventListener(
+          "submit",
+          (event) => {
+            // Se o formulário não for válido, impede o envio e exibe os erros
+            if (!form.checkValidity()) {
+              event.preventDefault();
+              event.stopPropagation();
+            } else {
+              // Se o formulário FOR válido, impede o envio padrão (para simulação)
+              // e mostra o spinner
+              event.preventDefault();
+
+              // Ativa o feedback de carregamento
+              submitButton.disabled = true;
+              buttonSpinner.classList.remove("d-none");
+              buttonText.textContent = "Enviando...";
+
+              // SIMULAÇÃO: Aqui você faria o envio real (ex: com fetch)
+              // Vou simular um envio de 2 segundos.
+              setTimeout(() => {
+                // Após o "envio", exibe um alerta de sucesso
+                alert("Desafio enviado com sucesso!");
+                // E reseta o formulário e o botão
+                form.classList.remove("was-validated");
+                form.reset();
+                submitButton.disabled = false;
+                buttonSpinner.classList.add("d-none");
+                buttonText.textContent = "Enviar";
+
+                // Reseta os contadores manuais
+                document
+                  .querySelectorAll("textarea[data-counter-id]")
+                  .forEach((textarea) => {
+                    document.getElementById(
+                      textarea.dataset.counterId
+                    ).textContent = "0";
+                  });
+              }, 2000);
+            }
+
+            form.classList.add("was-validated");
+          },
+          false
+        );
+
+        // --- 2. SCRIPT DO CONTADOR DE CARACTERES ---
+        // Seleciona todos os textareas que têm o atributo 'data-counter-id'
+        const textareas = document.querySelectorAll(
+          "textarea[data-counter-id]"
+        );
+
+        textareas.forEach((textarea) => {
+          // Encontra o <span> do contador correspondente
+          const counter = document.getElementById(textarea.dataset.counterId);
+          const minLength = parseInt(textarea.getAttribute("minlength"), 10);
+
+          textarea.addEventListener("input", () => {
+            const currentLength = textarea.value.length;
+            // Atualiza o texto do contador
+            counter.textContent = currentLength;
+
+            // Muda a cor do contador se atingir o mínimo
+            if (currentLength >= minLength) {
+              counter.classList.add("text-success"); // Fica verde
+            } else {
+              counter.classList.remove("text-success");
+            }
+          });
+        });
+      })();
+    </script>
   </body>
 </html>

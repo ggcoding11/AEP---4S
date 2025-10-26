@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - InovaMEI</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <link rel="stylesheet" href="../css/styleLogin.css" />
+    <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="../css/geral.css" />
+  </head>
+  <body
+    class="d-flex justify-content-center align-items-center min-vh-100 cor-azul py-5"
+  >
+    <div class="container" style="max-width: 500px">
+      <div class="card gap-4 p-4 p-md-5 shadow-sm">
+        <a
+          href="home.html"
+          class="d-flex justify-content-center align-items-center flex-column"
+        >
+          <img src="../img/logo_certa.png" alt="Logo InovaMEI" class="logo" />
+        </a>
+        <h2 class="text-center h4 fw-bold">Acesse sua conta</h2>
+
+        <ul class="nav nav-pills nav-fill mb-3" id="pills-tab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link active"
+              id="pills-login-aluno-tab"
+              data-bs-toggle="pill"
+              data-bs-target="#pills-login-aluno"
+              type="button"
+              role="tab"
+              aria-controls="pills-login-aluno"
+              aria-selected="true"
+            >
+              Sou Aluno
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link"
+              id="pills-login-empresa-tab"
+              data-bs-toggle="pill"
+              data-bs-target="#pills-login-empresa"
+              type="button"
+              role="tab"
+              aria-controls="pills-login-empresa"
+              aria-selected="false"
+            >
+              Sou Empresa
+            </button>
+          </li>
+        </ul>
+
+        <div class="tab-content" id="pills-tabContentLogin">
+          <div
+            class="tab-pane fade show active"
+            id="pills-login-aluno"
+            role="tabpanel"
+            aria-labelledby="pills-login-aluno-tab"
+            tabindex="0"
+          >
+            <form class="needs-validation" id="login-form-aluno" novalidate>
+              <div class="mb-3">
+                <label for="input-email-aluno" class="form-label fw-semibold"
+                  >Email ou usuário</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="input-email-aluno"
+                  required
+                />
+                <div class="invalid-feedback">
+                  Por favor, insira seu email ou usuário.
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="input-senha-aluno" class="form-label fw-semibold"
+                  >Senha</label
+                >
+                <div class="input-group has-validation">
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="input-senha-aluno"
+                    required
+                  />
+                  <button
+                    class="btn btn-outline-secondary toggle-senha"
+                    type="button"
+                    data-target="input-senha-aluno"
+                    data-icon="toggle-icon-aluno"
+                  >
+                    <i class="bi bi-eye-fill" id="toggle-icon-aluno"></i>
+                  </button>
+                  <div class="invalid-feedback">
+                    Por favor, insira sua senha.
+                  </div>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <a
+                  href="#"
+                  class="link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+                  >Esqueci a senha</a
+                >
+              </div>
+              <button
+                type="submit"
+                class="btn btn-primary text-white fw-bold rounded-2 w-100 p-2"
+                id="btn-submit-aluno"
+              >
+                <span
+                  class="spinner-border spinner-border-sm d-none"
+                  role="status"
+                  aria-hidden="true"
+                ></span>
+                <span>Entrar</span>
+              </button>
+            </form>
+          </div>
+
+          <div
+            class="tab-pane fade"
+            id="pills-login-empresa"
+            role="tabpanel"
+            aria-labelledby="pills-login-empresa-tab"
+            tabindex="0"
+          >
+            <form class="needs-validation" id="login-form-empresa" novalidate>
+              <div class="mb-3">
+                <label for="input-cnpj-login" class="form-label fw-semibold"
+                  >CNPJ</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="input-cnpj-login"
+                  placeholder="00.000.000/0000-00"
+                  required
+                />
+                <div class="invalid-feedback">Por favor, insira seu CNPJ.</div>
+              </div>
+
+              <div class="mb-3">
+                <label for="input-senha-empresa" class="form-label fw-semibold"
+                  >Senha</label
+                >
+                <div class="input-group has-validation">
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="input-senha-empresa"
+                    required
+                  />
+                  <button
+                    class="btn btn-outline-secondary toggle-senha"
+                    type="button"
+                    data-target="input-senha-empresa"
+                    data-icon="toggle-icon-empresa"
+                  >
+                    <i class="bi bi-eye-fill" id="toggle-icon-empresa"></i>
+                  </button>
+                  <div class="invalid-feedback">
+                    Por favor, insira sua senha.
+                  </div>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <a
+                  href="#"
+                  class="link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+                  >Esqueci a senha</a
+                >
+              </div>
+
+              <button
+                type="submit"
+                class="btn btn-primary text-white fw-bold rounded-2 w-100 p-2"
+                id="btn-submit-empresa"
+              >
+                <span
+                  class="spinner-border spinner-border-sm d-none"
+                  role="status"
+                  aria-hidden="true"
+                ></span>
+                <span>Entrar</span>
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <div class="text-center mt-3">
+          <p class="mb-0">
+            Ainda não tem conta?
+            <a href="cadastro.html" class="fw-semibold">Cadastre-se</a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.9/jquery.inputmask.min.js"></script>
+
+    <script>
+      // --- 1. MÁSCARA DE CNPJ ---
+      $(document).ready(function () {
+        $("#input-cnpj-login").inputmask("99.999.999/9999-99");
+      });
+
+      // --- 2. SCRIPTS DE VALIDAÇÃO (JS PURO) ---
+      (() => {
+        "use strict";
+
+        function handleFormSubmit(form) {
+          form.addEventListener(
+            "submit",
+            (event) => {
+              if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+              } else {
+                event.preventDefault();
+                const submitButton = form.querySelector(
+                  'button[type="submit"]'
+                );
+                const spinner =
+                  submitButton.querySelector(".spinner-border-sm");
+                const buttonText =
+                  submitButton.querySelector("span:last-child");
+
+                submitButton.disabled = true;
+                spinner.classList.remove("d-none");
+                buttonText.textContent = "Entrando...";
+
+                setTimeout(() => {
+                  alert(
+                    "Login efetuado com sucesso! (Simulação)\nRedirecionando para a home..."
+                  );
+
+                  // =============================================
+                  // NOVO: SALVA A SESSÃO SIMULADA
+                  // =============================================
+                  const userType =
+                    form.id === "login-form-aluno" ? "aluno" : "empresa";
+                  localStorage.setItem("userLoggedIn", "true");
+                  localStorage.setItem("userType", userType);
+                  // =============================================
+
+                  window.location.href = "home.html";
+                }, 1500);
+              }
+
+              form.classList.add("was-validated");
+            },
+            false
+          );
+        }
+
+        const formAluno = document.getElementById("login-form-aluno");
+        const formEmpresa = document.getElementById("login-form-empresa");
+        handleFormSubmit(formAluno);
+        handleFormSubmit(formEmpresa);
+
+        // --- 3. MOSTRAR/ESCONDER SENHA ---
+        const toggleButtons = document.querySelectorAll(".toggle-senha");
+        // ... (código do toggle de senha) ...
+        toggleButtons.forEach((button) => {
+          button.addEventListener("click", () => {
+            const targetInput = document.getElementById(button.dataset.target);
+            const targetIcon = document.getElementById(button.dataset.icon);
+
+            if (targetInput.type === "password") {
+              targetInput.type = "text";
+              targetIcon.classList.remove("bi-eye-fill");
+              targetIcon.classList.add("bi-eye-slash-fill");
+            } else {
+              targetInput.type = "password";
+              targetIcon.classList.remove("bi-eye-slash-fill");
+              targetIcon.classList.add("bi-eye-fill");
+            }
+          });
+        });
+
+        // --- 4. ATIVAR MÁSCARA QUANDO A ABA É MOSTRADA ---
+        const empresaTab = document.getElementById("pills-login-empresa-tab");
+        empresaTab.addEventListener("shown.bs.tab", function () {
+          $("#input-cnpj-login").inputmask("99.999.999/9999-99");
+        });
+      })();
+    </script>
+  </body>
+</html>

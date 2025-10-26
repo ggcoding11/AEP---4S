@@ -1,0 +1,32 @@
+/* ======================== */
+/* CSS para styleHome.css   */
+/* ======================== */
+
+/* Seção Hero (Banner Inicial) */
+.hero-section {
+  /* Você pode usar um gradiente ou uma imagem de fundo */
+  background: linear-gradient(
+      rgba(40, 58, 100, 0.7),
+      rgba(29, 42, 73, 0.9)
+    ),
+    url("../img/hero-background.jpg"); /* Crie uma imagem de fundo legal */
+  
+  /* Se não quiser imagem, use apenas o gradiente ou a cor-azul */
+  /* background: #1a2b4f; */ /* Tom de azul escuro */
+  
+  background-size: cover;
+  background-position: center;
+  padding: 100px 0;
+}
+
+/* Garante que os cards de desafio tenham a mesma altura */
+.card.h-100 {
+  height: 100% !important;
+}
+
+/* Arredondamento da imagem de perfil no card "Melhores do Mês" */
+#melhores-do-mes .card-img-top {
+  width: 120px !important;
+  height: 120px;
+  object-fit: cover;
+}
