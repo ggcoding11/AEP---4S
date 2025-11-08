@@ -11,7 +11,7 @@ CREATE TABLE empresas (
     email_contato VARCHAR(255) NOT NULL UNIQUE,
     setor VARCHAR(100),
     cidade VARCHAR(100),
-    senha VARCHAR(255) NOT NULL,
+    senha_hash VARCHAR(100) NOT NULL,
     data_cadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
