@@ -13,15 +13,14 @@ import java.util.List;
 public class DesafioDAO {
 
     public List<Desafio> findAll() {
-        // SQL CORRIGIDO para bater com o banco-inovaMEI.sql
-        String sql = "SELECT d.id_desafio, d.titulo_desafio, d.desc_desafio, d.id_empresa, e.nome_empresa " +
+        // SQL CORRIGIDO (usando 'titulo' e 'descricao' do seu .sql)
+        String sql = "SELECT d.id_desafio, d.titulo, d.descricao, d.id_empresa, e.nome_empresa " +
                 "FROM desafios d " +
-                "JOIN empresas e ON d.id_empresa = e.id_empresa " + // Corrigido
+                "JOIN empresas e ON d.id_empresa = e.id_empresa " +
                 "ORDER BY d.id_desafio DESC";
 
         List<Desafio> desafios = new ArrayList<>();
 
-        // Usando try-with-resources para fechar conexões automaticamente
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
@@ -31,15 +30,14 @@ public class DesafioDAO {
 
                 // Mapeamento CORRIGIDO (SQL -> Java)
                 desafio.setId(rs.getInt("id_desafio"));
-                desafio.setTitulo(rs.getString("titulo_desafio"));
-                desafio.setDescricao(rs.getString("desc_desafio"));
+                desafio.setTitulo(rs.getString("titulo")); // Corrigido
+                desafio.setDescricao(rs.getString("descricao")); // Corrigido
                 desafio.setEmpresaId(rs.getInt("id_empresa"));
                 desafio.setNomeEmpresa(rs.getString("nome_empresa"));
 
                 desafios.add(desafio);
             }
         } catch (SQLException e) {
-            // Isso vai "jogar" o erro para o Main.java, que o reportará como JSON
             throw new RuntimeException("Erro ao buscar desafios: " + e.getMessage(), e);
         }
         return desafios;
