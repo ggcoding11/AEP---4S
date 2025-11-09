@@ -1,122 +1,59 @@
 package com.inovamei.dao;
 
-import com.inovamei.config.DatabaseConnection;
 import com.inovamei.model.Desafio;
+import com.inovamei.config.DatabaseConnection;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.sql.*;
+import java.time.LocalDateTime;
 
 public class DesafioDAO {
 
-    // --- NOVO MÉTODO: CREATE ---
-    public Desafio create(Desafio desafio) {
-        // Assume que 'titulo', 'descricao', e 'id_empresa' estão definidos
-        String sql = "INSERT INTO desafios (titulo, descricao, id_empresa, status_desafio) VALUES (?, ?, ?, 'Pendente')";
-
-        // Para buscar o nome da empresa após a criação (necessário para o DTO de resposta no Main.java)
-        String sqlSelectNomeEmpresa = "SELECT nome_empresa FROM empresas WHERE id_empresa = ?";
-
+    public Desafio create(Desafio d) throws SQLException {
+        String sql = "INSERT INTO desafios (id_empresa, titulo, posicao_atual, processo_atual, problemas_encontrados, impacto_negocio, o_que_facilitar) VALUES (?,?,?,?,?,?,?)";
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            ps.setInt(1, d.getIdEmpresa());
+            ps.setString(2, d.getTitulo());
+            ps.setString(3, d.getPosicaoAtual());
+            ps.setString(4, d.getProcessoAtual());
+            ps.setString(5, d.getProblemasEncontrados());
+            ps.setString(6, d.getImpactoNegocio());
+            ps.setString(7, d.getOQueFacilitar());
+            ps.executeUpdate();
 
-            pstmt.setString(1, desafio.getTitulo());
-            pstmt.setString(2, desafio.getDescricao());
-            pstmt.setInt(3, desafio.getEmpresaId());
-
-            int affectedRows = pstmt.executeUpdate();
-
-            if (affectedRows == 0) {
-                throw new SQLException("Falha ao criar desafio, nenhuma linha afetada.");
-            }
-
-            // 1. Recupera o ID gerado pelo banco
-            try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    desafio.setId(generatedKeys.getInt(1)); // Define o ID gerado no objeto
-                    desafio.setStatusDesafio("Pendente");
-                } else {
-                    throw new SQLException("Falha ao criar desafio, ID não obtido.");
-                }
-            }
-
-            // 2. Busca o nome da empresa pelo ID para o DTO de resposta
-            try (PreparedStatement pstmtEmpresa = conn.prepareStatement(sqlSelectNomeEmpresa)) {
-                pstmtEmpresa.setInt(1, desafio.getEmpresaId());
-                try (ResultSet rsEmpresa = pstmtEmpresa.executeQuery()) {
-                    if (rsEmpresa.next()) {
-                        desafio.setNomeEmpresa(rsEmpresa.getString("nome_empresa"));
-                    }
-                }
-            }
-
-        } catch (SQLException e) {
-            throw new RuntimeException("Erro ao criar desafio: " + e.getMessage(), e);
-        }
-        return desafio;
-    }
-
-    public List<Desafio> findAll() {
-        // SQL CORRIGIDO (usando 'titulo' e 'descricao' do seu .sql)
-        String sql = "SELECT d.id_desafio, d.titulo, d.descricao, d.id_empresa, e.nome_empresa " +
-                "FROM desafios d " +
-                "JOIN empresas e ON d.id_empresa = e.id_empresa " +
-                "ORDER BY d.id_desafio DESC";
-
-        List<Desafio> desafios = new ArrayList<>();
-
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql);
-             ResultSet rs = pstmt.executeQuery()) {
-
-            while (rs.next()) {
-                Desafio desafio = new Desafio();
-
-                // Mapeamento CORRIGIDO (SQL -> Java)
-                desafio.setId(rs.getInt("id_desafio"));
-                desafio.setTitulo(rs.getString("titulo")); // Corrigido
-                desafio.setDescricao(rs.getString("descricao")); // Corrigido
-                desafio.setEmpresaId(rs.getInt("id_empresa"));
-                desafio.setNomeEmpresa(rs.getString("nome_empresa"));
-
-                desafios.add(desafio);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException("Erro ao buscar desafios: " + e.getMessage(), e);
-        }
-        return desafios;
-    }
-
-    public Optional<Desafio> findById(int id) {
-        String sql = "SELECT d.id_desafio, d.titulo, d.descricao, d.id_empresa, e.nome_empresa " +
-                "FROM desafios d " +
-                "JOIN empresas e ON d.id_empresa = e.id_empresa " +
-                "WHERE d.id_desafio = ?"; // <-- A Mágica do WHERE
-
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setInt(1, id); // Define o ID
-
-            try (ResultSet rs = pstmt.executeQuery()) {
+            try (ResultSet rs = ps.getGeneratedKeys()) {
                 if (rs.next()) {
-                    Desafio desafio = new Desafio();
-                    desafio.setId(rs.getInt("id_desafio"));
-                    desafio.setTitulo(rs.getString("titulo"));
-                    desafio.setDescricao(rs.getString("descricao"));
-                    desafio.setEmpresaId(rs.getInt("id_empresa"));
-                    desafio.setNomeEmpresa(rs.getString("nome_empresa"));
-                    return Optional.of(desafio); // Retorna o desafio encontrado
+                    int id = rs.getInt(1);
+                    return findById(id);
                 }
             }
-        } catch (SQLException e) {
-            throw new RuntimeException("Erro ao buscar desafio por ID: " + e.getMessage(), e);
         }
-        return Optional.empty(); // Retorna vazio se não encontrar
+        return null;
+    }
+
+    public Desafio findById(int idDesafio) throws SQLException {
+        String sql = "SELECT id_desafio, id_empresa, titulo, posicao_atual, processo_atual, problemas_encontrados, impacto_negocio, o_que_facilitar, status, data_criacao FROM desafios WHERE id_desafio = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, idDesafio);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    Desafio d = new Desafio();
+                    d.setIdDesafio(rs.getInt("id_desafio"));
+                    d.setIdEmpresa(rs.getInt("id_empresa"));
+                    d.setTitulo(rs.getString("titulo"));
+                    d.setPosicaoAtual(rs.getString("posicao_atual"));
+                    d.setProcessoAtual(rs.getString("processo_atual"));
+                    d.setProblemasEncontrados(rs.getString("problemas_encontrados"));
+                    d.setImpactoNegocio(rs.getString("impacto_negocio"));
+                    d.setOQueFacilitar(rs.getString("o_que_facilitar"));
+                    d.setStatus(rs.getString("status"));
+                    Timestamp ts = rs.getTimestamp("data_criacao");
+                    d.setDataCriacao(ts != null ? ts.toLocalDateTime() : null);
+                    return d;
+                }
+            }
+        }
+        return null;
     }
 }

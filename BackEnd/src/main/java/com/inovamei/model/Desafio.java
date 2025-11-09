@@ -1,49 +1,96 @@
 package com.inovamei.model;
 
+import java.time.LocalDateTime;
+
 public class Desafio {
-    private int id;
+    private int idDesafio;
+    private int idEmpresa;
     private String titulo;
-    private String descricao;
-    private int empresaId;
-    private String nomeEmpresa;
-    private String statusDesafio;
+    private String posicaoAtual;
+    private String processoAtual;
+    private String problemasEncontrados;
+    private String impactoNegocio;
+    private String oQueFacilitar;
+    private String status; // e.g., 'aberto', 'fechado' conforme banco
+    private LocalDateTime dataCriacao;
 
-
-    // --- CONSTRUTOR VAZIO (O QUE O DAO PRECISA) ---
-    public Desafio() {
+    public int getIdDesafio() {
+        return idDesafio;
     }
 
-    // --- Construtor de 5 argumentos (opcional, mas bom ter) ---
-    public Desafio(int id, String titulo, String descricao, int empresaId, String nomeEmpresa) {
-        this.id = id;
+    public void setIdDesafio(int idDesafio) {
+        this.idDesafio = idDesafio;
+    }
+
+    public int getIdEmpresa() {
+        return idEmpresa;
+    }
+
+    public void setIdEmpresa(int idEmpresa) {
+        this.idEmpresa = idEmpresa;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String titulo) {
         this.titulo = titulo;
-        this.descricao = descricao;
-        this.empresaId = empresaId;
-        this.nomeEmpresa = nomeEmpresa;
     }
 
-    // --- GETTERS E SETTERS (O QUE O DAO PRECISA) ---
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
-
-    public String getTitulo() { return titulo; }
-    public void setTitulo(String titulo) { this.titulo = titulo; }
-
-    public String getDescricao() { return descricao; }
-    public void setDescricao(String descricao) { this.descricao = descricao; }
-
-    public int getEmpresaId() { return empresaId; }
-    public void setEmpresaId(int empresaId) { this.empresaId = empresaId; }
-
-    public String getNomeEmpresa() { return nomeEmpresa; }
-    public void setNomeEmpresa(String nomeEmpresa) { this.nomeEmpresa = nomeEmpresa; }
-
-    public String getStatusDesafio() {
-        return statusDesafio;
+    public String getPosicaoAtual() {
+        return posicaoAtual;
     }
 
-    // Setter (Este é o método que estava faltando!)
-    public void setStatusDesafio(String statusDesafio) {
-        this.statusDesafio = statusDesafio;
+    public void setPosicaoAtual(String posicaoAtual) {
+        this.posicaoAtual = posicaoAtual;
+    }
+
+    public String getProcessoAtual() {
+        return processoAtual;
+    }
+
+    public void setProcessoAtual(String processoAtual) {
+        this.processoAtual = processoAtual;
+    }
+
+    public String getProblemasEncontrados() {
+        return problemasEncontrados;
+    }
+
+    public void setProblemasEncontrados(String problemasEncontrados) {
+        this.problemasEncontrados = problemasEncontrados;
+    }
+
+    public String getImpactoNegocio() {
+        return impactoNegocio;
+    }
+
+    public void setImpactoNegocio(String impactoNegocio) {
+        this.impactoNegocio = impactoNegocio;
+    }
+
+    public String getOQueFacilitar() {
+        return oQueFacilitar;
+    }
+
+    public void setOQueFacilitar(String oQueFacilitar) {
+        this.oQueFacilitar = oQueFacilitar;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public LocalDateTime getDataCriacao() {
+        return dataCriacao;
+    }
+
+    public void setDataCriacao(LocalDateTime dataCriacao) {
+        this.dataCriacao = dataCriacao;
     }
 }
