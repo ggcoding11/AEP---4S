@@ -421,55 +421,9 @@
       (() => {
         "use strict";
 
-        // --- VALIDAÇÃO GERAL DO BOOTSTRAP ---
-        function handleFormSubmit(form) {
-          form.addEventListener(
-            "submit",
-            (event) => {
-              if (!form.checkValidity()) {
-                event.preventDefault();
-                event.stopPropagation();
-              } else {
-                // Se o formulário for válido, simula o cadastro
-                event.preventDefault();
-                const submitButton = form.querySelector(
-                  'button[type="submit"]'
-                );
-                const spinner =
-                  submitButton.querySelector(".spinner-border-sm");
-                const buttonText =
-                  submitButton.querySelector("span:last-child");
-
-                // Ativa o feedback de carregamento
-                submitButton.disabled = true;
-                spinner.classList.remove("d-none");
-                buttonText.textContent = "Cadastrando...";
-
-                // SIMULAÇÃO: Cadastro
-                setTimeout(() => {
-                  alert(
-                    "Cadastro efetuado com sucesso! (Simulação)\nVocê será redirecionado para o login."
-                  );
-                  // Redireciona para o login apropriado
-                  if (form.id === "form-aluno") {
-                    window.location.href = "login.html";
-                  } else {
-                    window.location.href = "login.html";
-                  }
-                }, 2000);
-              }
-
-              form.classList.add("was-validated");
-            },
-            false
-          );
-        }
-
-        const formAluno = document.getElementById("form-aluno");
-        const formEmpresa = document.getElementById("form-empresa");
-        handleFormSubmit(formAluno);
-        handleFormSubmit(formEmpresa);
-
+        const formAluno = document.getElementById("cadastro-form-aluno");
+        const formEmpresa = document.getElementById("cadastro-form-empresa");
+        
         // --- 3. MOSTRAR/ESCONDER SENHA (para múltiplos botões) ---
         const toggleButtons = document.querySelectorAll(".toggle-senha");
 
@@ -523,5 +477,7 @@
         );
       })();
     </script>
+
+    <script src="../js/cadastro.js"></script>
   </body>
 </html>

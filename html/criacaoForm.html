@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Formulário - InovaMEI</title>
+    <title>Criar Desafio - InovaMEI</title>
     <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon" />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
@@ -15,52 +15,75 @@
     <link rel="stylesheet" href="../css/geral.css" />
   </head>
   <body>
-    <nav class="navbar cor-azul" data-bs-theme="dark">
-      <div class="container d-flex">
+    <nav class="navbar navbar-expand-lg cor-azul" data-bs-theme="dark">
+      <div class="container d-flex flex-wrap justify-content-between">
         <a
-          class="navbar-brand d-flex align-items-center gap-2"
           href="home.html"
+          class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto text-dark text-decoration-none"
         >
-          <img
-            src="../img/logo_foto.png"
-            alt="Logo"
-            width="40"
-            height="40"
-            class="d-inline-block align-text-top"
-          />
-          <img src="../img/nome_logo.png" alt="" width="100" />
+          <img src="../img/nome_logo.png" alt="InovaMEI" height="32" />
         </a>
 
-        <div class="dropdown">
+        <div class="d-flex align-items-center gap-3" id="nav-anonimo">
+          <a href="login.html" class="btn btn-outline-primary rounded-5 px-4"
+            >Login</a
+          >
           <a
-            href="#"
-            role="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
+            href="cadastro.html"
+            class="btn btn-primary text-white rounded-5 px-4"
+            >Cadastrar</a
+          >
+        </div>
+
+        <div class="d-flex align-items-center gap-3 d-none" id="nav-logado">
+          <a
+            href="perfil.html"
+            class="d-flex align-items-center gap-2 link-body-emphasis text-decoration-none"
           >
             <img
               src="../img/foto_perfil.png"
-              alt="Foto do Perfil"
-              class="foto_perfil rounded-circle"
+              alt="Foto de Perfil"
+              width="40"
+              height="40"
+              class="rounded-circle"
             />
+            <span class="fw-semibold" id="nome-usuario-logado"
+              >Olá, [Nome]</span
+            >
           </a>
-          <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" href="#">Meu Perfil</a></li>
-            <li><a class="dropdown-item" href="#">Meus Desafios</a></li>
-            <li><hr class="dropdown-divider" /></li>
-            <li><a class="dropdown-item" href="#">Sair</a></li>
-          </ul>
+          <a
+            href="#"
+            class="btn btn-outline-danger rounded-5 px-4"
+            id="btn-logout"
+            >Sair</a
+          >
         </div>
       </div>
     </nav>
-
     <div class="container mt-4">
       <div class="row justify-content-center">
         <div class="col-lg-10">
-          <h1>Elaboração do desafio</h1>
-          <p>Preencha os campos a seguir:</p>
+          <h1>Elaboração do Desafio</h1>
+          <p>Preencha os campos a seguir detalhando seu problema:</p>
 
-          <form class="needs-validation" id="desafio-form" novalidate>
+          <form class="needs-validation" id="form-criacao-desafio" novalidate>
+            <div class="mb-3">
+              <label for="titulo-desafio" class="form-label fw-semibold">
+                Título do Desafio (Ex: Controle de Estoque Simplificado):
+              </label>
+              <input
+                type="text"
+                class="form-control"
+                id="titulo-desafio"
+                maxlength="100"
+                required
+              />
+              <div class="invalid-feedback">
+                Por favor, insira um título para o desafio.
+              </div>
+            </div>
+            <hr />
+
             <div class="mb-3">
               <label for="minha-posicao" class="form-label fw-semibold"
                 >Minha posição (min: 60 caracteres):
@@ -226,87 +249,7 @@
       crossorigin="anonymous"
     ></script>
 
-    <script>
-      // Função auto-executável para encapsular nosso código
-      (() => {
-        "use strict";
-
-        // --- 1. SCRIPT DE VALIDAÇÃO DO BOOTSTRAP ---
-        const form = document.getElementById("desafio-form");
-        const submitButton = document.getElementById("btn-submit");
-        const buttonSpinner = document.getElementById("btn-spinner");
-        const buttonText = document.getElementById("btn-text");
-
-        form.addEventListener(
-          "submit",
-          (event) => {
-            // Se o formulário não for válido, impede o envio e exibe os erros
-            if (!form.checkValidity()) {
-              event.preventDefault();
-              event.stopPropagation();
-            } else {
-              // Se o formulário FOR válido, impede o envio padrão (para simulação)
-              // e mostra o spinner
-              event.preventDefault();
-
-              // Ativa o feedback de carregamento
-              submitButton.disabled = true;
-              buttonSpinner.classList.remove("d-none");
-              buttonText.textContent = "Enviando...";
-
-              // SIMULAÇÃO: Aqui você faria o envio real (ex: com fetch)
-              // Vou simular um envio de 2 segundos.
-              setTimeout(() => {
-                // Após o "envio", exibe um alerta de sucesso
-                alert("Desafio enviado com sucesso!");
-                // E reseta o formulário e o botão
-                form.classList.remove("was-validated");
-                form.reset();
-                submitButton.disabled = false;
-                buttonSpinner.classList.add("d-none");
-                buttonText.textContent = "Enviar";
-
-                // Reseta os contadores manuais
-                document
-                  .querySelectorAll("textarea[data-counter-id]")
-                  .forEach((textarea) => {
-                    document.getElementById(
-                      textarea.dataset.counterId
-                    ).textContent = "0";
-                  });
-              }, 2000);
-            }
-
-            form.classList.add("was-validated");
-          },
-          false
-        );
-
-        // --- 2. SCRIPT DO CONTADOR DE CARACTERES ---
-        // Seleciona todos os textareas que têm o atributo 'data-counter-id'
-        const textareas = document.querySelectorAll(
-          "textarea[data-counter-id]"
-        );
-
-        textareas.forEach((textarea) => {
-          // Encontra o <span> do contador correspondente
-          const counter = document.getElementById(textarea.dataset.counterId);
-          const minLength = parseInt(textarea.getAttribute("minlength"), 10);
-
-          textarea.addEventListener("input", () => {
-            const currentLength = textarea.value.length;
-            // Atualiza o texto do contador
-            counter.textContent = currentLength;
-
-            // Muda a cor do contador se atingir o mínimo
-            if (currentLength >= minLength) {
-              counter.classList.add("text-success"); // Fica verde
-            } else {
-              counter.classList.remove("text-success");
-            }
-          });
-        });
-      })();
-    </script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/criacaoForm.js"></script>
   </body>
 </html>
