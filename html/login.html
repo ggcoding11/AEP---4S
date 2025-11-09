@@ -228,85 +228,9 @@
       });
 
       // --- 2. SCRIPTS DE VALIDAÇÃO (JS PURO) ---
-      (() => {
-        "use strict";
-
-        function handleFormSubmit(form) {
-          form.addEventListener(
-            "submit",
-            (event) => {
-              if (!form.checkValidity()) {
-                event.preventDefault();
-                event.stopPropagation();
-              } else {
-                event.preventDefault();
-                const submitButton = form.querySelector(
-                  'button[type="submit"]'
-                );
-                const spinner =
-                  submitButton.querySelector(".spinner-border-sm");
-                const buttonText =
-                  submitButton.querySelector("span:last-child");
-
-                submitButton.disabled = true;
-                spinner.classList.remove("d-none");
-                buttonText.textContent = "Entrando...";
-
-                setTimeout(() => {
-                  alert(
-                    "Login efetuado com sucesso! (Simulação)\nRedirecionando para a home..."
-                  );
-
-                  // =============================================
-                  // NOVO: SALVA A SESSÃO SIMULADA
-                  // =============================================
-                  const userType =
-                    form.id === "login-form-aluno" ? "aluno" : "empresa";
-                  localStorage.setItem("userLoggedIn", "true");
-                  localStorage.setItem("userType", userType);
-                  // =============================================
-
-                  window.location.href = "home.html";
-                }, 1500);
-              }
-
-              form.classList.add("was-validated");
-            },
-            false
-          );
-        }
-
-        const formAluno = document.getElementById("login-form-aluno");
-        const formEmpresa = document.getElementById("login-form-empresa");
-        handleFormSubmit(formAluno);
-        handleFormSubmit(formEmpresa);
-
-        // --- 3. MOSTRAR/ESCONDER SENHA ---
-        const toggleButtons = document.querySelectorAll(".toggle-senha");
-        // ... (código do toggle de senha) ...
-        toggleButtons.forEach((button) => {
-          button.addEventListener("click", () => {
-            const targetInput = document.getElementById(button.dataset.target);
-            const targetIcon = document.getElementById(button.dataset.icon);
-
-            if (targetInput.type === "password") {
-              targetInput.type = "text";
-              targetIcon.classList.remove("bi-eye-fill");
-              targetIcon.classList.add("bi-eye-slash-fill");
-            } else {
-              targetInput.type = "password";
-              targetIcon.classList.remove("bi-eye-slash-fill");
-              targetIcon.classList.add("bi-eye-fill");
-            }
-          });
-        });
-
-        // --- 4. ATIVAR MÁSCARA QUANDO A ABA É MOSTRADA ---
-        const empresaTab = document.getElementById("pills-login-empresa-tab");
-        empresaTab.addEventListener("shown.bs.tab", function () {
-          $("#input-cnpj-login").inputmask("99.999.999/9999-99");
-        });
-      })();
+      
     </script>
+
+    <script src="../js/login.js"></script>
   </body>
 </html>
