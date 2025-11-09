@@ -245,30 +245,58 @@ public class Main {
         });
 
         // --- ENDPOINT PARA BUSCAR TODOS OS DESAFIOS ---
+
+        // --- ENDPOINT ÚNICO PARA DESAFIOS (LISTAR TUDO OU BUSCAR POR ID) ---
+        // --- ENDPOINT ÚNICO PARA DESAFIOS (LISTAR TUDO OU BUSCAR POR ID) ---
+        // CORREÇÃO: Remova a barra final para capturar /desafios E /desafios/
         server.createContext("/desafios", exchange -> {
             try {
                 if (isOptions(exchange)) { sendCors(exchange, 200, ""); return; }
-
-                // Apenas GET é permitido
                 if (!"GET".equalsIgnoreCase(exchange.getRequestMethod())) {
                     sendJson(exchange, 405, error("METHOD_NOT_ALLOWED", "Method Not Allowed"));
                     return;
                 }
 
-                List<Desafio> desafios = desafioDAO.findAll();
+                String path = exchange.getRequestURI().getPath();
+                String[] parts = path.split("/");
+                // path /desafios -> parts = ["", "desafios"] (length 2)
+                // path /desafios/1 -> parts = ["", "desafios", "1"] (length 3)
 
-                // Converte a lista de desafios para JSON e envia
-                sendJson(exchange, 200, OM.writeValueAsString(Map.of("success", true, "desafios", desafios)));
+                if (parts.length == 2 || (parts.length == 3 && parts[2].isEmpty())) {
+                    // --- CASO 1: LISTAR TODOS (URL é /desafios ou /desafios/) ---
+                    List<Desafio> desafios = desafioDAO.findAll();
+                    sendJson(exchange, 200, OM.writeValueAsString(Map.of("success", true, "desafios", desafios)));
+
+                } else if (parts.length == 3) {
+                    // --- CASO 2: BUSCAR POR ID (URL é /desafios/1) ---
+                    try {
+                        int id = Integer.parseInt(parts[2]); // Pega o ID
+                        desafioDAO.findById(id)
+                                .ifPresentOrElse(
+                                        desafio -> { // Se encontrou
+                                            try {
+                                                sendJson(exchange, 200, OM.writeValueAsString(Map.of("success", true, "desafio", desafio)));
+                                            } catch (IOException e) { e.printStackTrace(); }
+                                        },
+                                        () -> { // Se não encontrou
+                                            try {
+                                                sendJson(exchange, 404, error("NOT_FOUND", "Desafio não encontrado"));
+                                            } catch (IOException e) { e.printStackTrace(); }
+                                        }
+                                );
+                    } catch (NumberFormatException e) {
+                        sendJson(exchange, 400, error("BAD_REQUEST", "ID do desafio inválido"));
+                    }
+                } else {
+                    sendJson(exchange, 400, error("BAD_REQUEST", "URL mal formatada"));
+                }
 
             } catch (Exception e) {
                 e.printStackTrace();
-                try {
-                    sendJson(exchange, 500, error("INTERNAL_SERVER_ERROR", "Ocorreu um erro inesperado"));
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
-                }
+                sendJson(exchange, 500, error("INTERNAL_SERVER_ERROR", "Ocorreu um erro inesperado"));
             }
         });
+        // --- FIM DO NOVO BLOCO ---
         // --- FIM DO NOVO BLOCO ---
 
         server.setExecutor(null);

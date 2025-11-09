@@ -43,4 +43,31 @@ public class DesafioDAO {
         return desafios;
     }
 
+    public java.util.Optional<Desafio> findById(int id) {
+        String sql = "SELECT d.id_desafio, d.titulo, d.descricao, d.id_empresa, e.nome_empresa " +
+                "FROM desafios d " +
+                "JOIN empresas e ON d.id_empresa = e.id_empresa " +
+                "WHERE d.id_desafio = ?"; // <-- A Mágica do WHERE
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, id); // Define o ID
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    Desafio desafio = new Desafio();
+                    desafio.setId(rs.getInt("id_desafio"));
+                    desafio.setTitulo(rs.getString("titulo"));
+                    desafio.setDescricao(rs.getString("descricao"));
+                    desafio.setEmpresaId(rs.getInt("id_empresa"));
+                    desafio.setNomeEmpresa(rs.getString("nome_empresa"));
+                    return java.util.Optional.of(desafio); // Retorna o desafio encontrado
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao buscar desafio por ID: " + e.getMessage(), e);
+        }
+        return java.util.Optional.empty(); // Retorna vazio se não encontrar
+    }
 }
