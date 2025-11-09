@@ -17,17 +17,22 @@ public class DesafioDAO {
     // --- NOVO MÉTODO: CREATE ---
     public Desafio create(Desafio desafio) {
         // Assume que 'titulo', 'descricao', e 'id_empresa' estão definidos
-        String sql = "INSERT INTO desafios (titulo, descricao, id_empresa, status_desafio) VALUES (?, ?, ?, 'Pendente')";
+        String sql = "INSERT INTO desafios (titulo, id_empresa, posicao_atual, processo_atual, problemas_encontrados, impacto_negocio, o_que_facilitar, status) VALUES (?, ?, ?, ?, ?, ?, ?, 'Pendente')";
 
-        // Para buscar o nome da empresa após a criação (necessário para o DTO de resposta no Main.java)
         String sqlSelectNomeEmpresa = "SELECT nome_empresa FROM empresas WHERE id_empresa = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             pstmt.setString(1, desafio.getTitulo());
-            pstmt.setString(2, desafio.getDescricao());
-            pstmt.setInt(3, desafio.getEmpresaId());
+            pstmt.setInt(2, desafio.getEmpresaId());
+
+            // Mapeando a descrição para as 5 colunas TEXT (Solução para funcionar com seu modelo atual)
+            pstmt.setString(3, desafio.getDescricao()); // posicao_atual
+            pstmt.setString(4, desafio.getDescricao()); // processo_atual
+            pstmt.setString(5, desafio.getDescricao()); // problemas_encontrados
+            pstmt.setString(6, desafio.getDescricao()); // impacto_negocio
+            pstmt.setString(7, desafio.getDescricao()); // o_que_facilitar
 
             int affectedRows = pstmt.executeUpdate();
 
@@ -61,12 +66,13 @@ public class DesafioDAO {
         return desafio;
     }
 
+    // DesafioDAO.java
     public List<Desafio> findAll() {
-        // SQL CORRIGIDO (usando 'titulo' e 'descricao' do seu .sql)
-        String sql = "SELECT d.id_desafio, d.titulo, d.descricao, d.id_empresa, e.nome_empresa " +
+        // CORREÇÃO: Colunas 'descricao' e 'status_desafio' foram substituídas por 'posicao_atual' e 'status' (nomes do seu SQL).
+        String sql = "SELECT d.id_desafio, d.titulo, d.id_empresa, e.nome_empresa, d.posicao_atual, d.status " +
                 "FROM desafios d " +
                 "JOIN empresas e ON d.id_empresa = e.id_empresa " +
-                "ORDER BY d.id_desafio DESC";
+                "ORDER BY d.data_criacao DESC";
 
         List<Desafio> desafios = new ArrayList<>();
 
@@ -76,14 +82,14 @@ public class DesafioDAO {
 
             while (rs.next()) {
                 Desafio desafio = new Desafio();
-
-                // Mapeamento CORRIGIDO (SQL -> Java)
                 desafio.setId(rs.getInt("id_desafio"));
-                desafio.setTitulo(rs.getString("titulo")); // Corrigido
-                desafio.setDescricao(rs.getString("descricao")); // Corrigido
+                desafio.setTitulo(rs.getString("titulo"));
+                // Mapeia a coluna 'posicao_atual' do banco para a propriedade 'descricao' do Java
+                desafio.setDescricao(rs.getString("posicao_atual"));
                 desafio.setEmpresaId(rs.getInt("id_empresa"));
                 desafio.setNomeEmpresa(rs.getString("nome_empresa"));
-
+                // Mapeia a coluna 'status' do banco para a propriedade 'statusDesafio' do Java
+                desafio.setStatusDesafio(rs.getString("status"));
                 desafios.add(desafio);
             }
         } catch (SQLException e) {
@@ -92,31 +98,35 @@ public class DesafioDAO {
         return desafios;
     }
 
+    // DesafioDAO.java - findById (DEPOIS)
     public Optional<Desafio> findById(int id) {
-        String sql = "SELECT d.id_desafio, d.titulo, d.descricao, d.id_empresa, e.nome_empresa " +
+        // CORREÇÃO: Usando a coluna 'posicao_atual' do banco no lugar de 'descricao'
+        String sql = "SELECT d.id_desafio, d.titulo, d.id_empresa, e.nome_empresa, d.posicao_atual, d.status " +
                 "FROM desafios d " +
                 "JOIN empresas e ON d.id_empresa = e.id_empresa " +
-                "WHERE d.id_desafio = ?"; // <-- A Mágica do WHERE
+                "WHERE d.id_desafio = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setInt(1, id); // Define o ID
+            pstmt.setInt(1, id);
 
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
                     Desafio desafio = new Desafio();
                     desafio.setId(rs.getInt("id_desafio"));
                     desafio.setTitulo(rs.getString("titulo"));
-                    desafio.setDescricao(rs.getString("descricao"));
+                    // Mapeia 'posicao_atual' para a propriedade 'descricao'
+                    desafio.setDescricao(rs.getString("posicao_atual"));
                     desafio.setEmpresaId(rs.getInt("id_empresa"));
                     desafio.setNomeEmpresa(rs.getString("nome_empresa"));
-                    return Optional.of(desafio); // Retorna o desafio encontrado
+                    desafio.setStatusDesafio(rs.getString("status")); // Usa a coluna correta
+                    return Optional.of(desafio);
                 }
             }
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao buscar desafio por ID: " + e.getMessage(), e);
         }
-        return Optional.empty(); // Retorna vazio se não encontrar
+        return Optional.empty();
     }
 }
