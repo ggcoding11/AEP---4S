@@ -24,6 +24,8 @@ import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import com.inovamei.api.dto.DesafioCreateRequest;
+import com.inovamei.model.Desafio;
 
 public class Main {
     private static final ObjectMapper OM = new ObjectMapper();
@@ -249,6 +251,7 @@ public class Main {
         // --- ENDPOINT ÚNICO PARA DESAFIOS (LISTAR TUDO OU BUSCAR POR ID) ---
         // --- ENDPOINT ÚNICO PARA DESAFIOS (LISTAR TUDO OU BUSCAR POR ID) ---
         // CORREÇÃO: Remova a barra final para capturar /desafios E /desafios/
+        // --- ENDPOINT ÚNICO PARA DESAFIOS (LISTAR TUDO OU BUSCAR POR ID) ---
         server.createContext("/desafios", exchange -> {
             try {
                 if (isOptions(exchange)) { sendCors(exchange, 200, ""); return; }
@@ -258,19 +261,22 @@ public class Main {
                 }
 
                 String path = exchange.getRequestURI().getPath();
+
+                // **CORREÇÃO CRÍTICA**: Normaliza o path (remove a barra final se existir)
+                // Isso transforma "/desafios/1/" em "/desafios/1"
+                if (path.endsWith("/")) {
+                    path = path.substring(0, path.length() - 1);
+                }
+
                 String[] parts = path.split("/");
-                // path /desafios -> parts = ["", "desafios"] (length 2)
-                // path /desafios/1 -> parts = ["", "desafios", "1"] (length 3)
+                // Agora, URLs com ID (Ex: /desafios/1) sempre terão length 3.
+                // URLs de lista (Ex: /desafios) sempre terão length 2.
 
-                if (parts.length == 2 || (parts.length == 3 && parts[2].isEmpty())) {
-                    // --- CASO 1: LISTAR TODOS (URL é /desafios ou /desafios/) ---
-                    List<Desafio> desafios = desafioDAO.findAll();
-                    sendJson(exchange, 200, OM.writeValueAsString(Map.of("success", true, "desafios", desafios)));
-
-                } else if (parts.length == 3) {
+                if (parts.length == 3) {
                     // --- CASO 2: BUSCAR POR ID (URL é /desafios/1) ---
                     try {
                         int id = Integer.parseInt(parts[2]); // Pega o ID
+
                         desafioDAO.findById(id)
                                 .ifPresentOrElse(
                                         desafio -> { // Se encontrou
@@ -287,7 +293,13 @@ public class Main {
                     } catch (NumberFormatException e) {
                         sendJson(exchange, 400, error("BAD_REQUEST", "ID do desafio inválido"));
                     }
+
+                } else if (parts.length == 2) {
+                    // --- CASO 1: LISTAR TODOS (URL é /desafios) ---
+                    List<Desafio> desafios = desafioDAO.findAll();
+                    sendJson(exchange, 200, OM.writeValueAsString(Map.of("success", true, "desafios", desafios)));
                 } else {
+                    // Captura URLs como /desafios/1/extra
                     sendJson(exchange, 400, error("BAD_REQUEST", "URL mal formatada"));
                 }
 
@@ -296,6 +308,7 @@ public class Main {
                 sendJson(exchange, 500, error("INTERNAL_SERVER_ERROR", "Ocorreu um erro inesperado"));
             }
         });
+// --- FIM DA CORREÇÃO ---
         // --- FIM DO NOVO BLOCO ---
         // --- FIM DO NOVO BLOCO ---
 
@@ -318,17 +331,22 @@ public class Main {
             }
 
             // Validação simples
-            if (req.id_aluno <= 0 || req.id_desafio <= 0 || isBlank(req.url_video_pitch)) {
-                sendJson(exchange, 400, error("VALIDATION_ERROR", "Campos obrigatórios ausentes ou inválidos (id_aluno, id_desafio, url_video_pitch)"));
+            if (req.alunoId <= 0 || req.desafioId <= 0 || isBlank(req.urlVideoPitch)) {
+                sendJson(exchange, 400, error("VALIDATION_ERROR", "Campos obrigatórios ausentes ou inválidos (alunoId, desafioId, urlVideoPitch)"));
                 return;
             }
 
             try {
                 // Mapeia o DTO para o Model
                 Pitch novoPitch = new Pitch();
-                novoPitch.setAlunoId(req.id_aluno);
-                novoPitch.setDesafioId(req.id_desafio);
-                novoPitch.setUrlVideoPitch(trim(req.url_video_pitch));
+                // Mude de novoPitch.setAlunoId(req.id_aluno);
+                novoPitch.setAlunoId(req.alunoId); // <-- CORRIGIDO
+
+                // Mude de novoPitch.setDesafioId(req.id_desafio);
+                novoPitch.setDesafioId(req.desafioId); // <-- CORRIGIDO
+
+                // Mude de novoPitch.setUrlVideoPitch(trim(req.url_video_pitch));
+                novoPitch.setUrlVideoPitch(trim(req.urlVideoPitch)); // <-- CORRIGIDO
 
                 // Cria no banco (o DAO cuida do INSERT)
                 Pitch criado = pitchDAO.create(novoPitch);
@@ -434,8 +452,8 @@ public class Main {
 
 
         // --- ADICIONE OS IMPORTS NECESSÁRIOS NO TOPO DO ARQUIVO ---
-        // import com.inovamei.api.dto.DesafioCreateRequest;
-        // import com.inovamei.model.Desafio;
+        //
+
 
         // ... (o restante do Main.java continua abaixo, incluindo /desafios) ...
 

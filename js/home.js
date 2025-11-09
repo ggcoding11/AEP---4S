@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (isEmpresaDona) {
       // Se for a Empresa Dona, mostra o botão de Gerenciar Pitches
       actionButton = `
-            <a href="gestaoPitches.html?id=${desafio.id_desafio}" class="btn btn-warning w-100 mt-3">
+            <a href="gestaoPitches.html?id=${desafio.id}" class="btn btn-warning w-100 mt-3">
                 Gerenciar Pitches
             </a>
         `;
@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // Se for Aluno ou Anônimo, mostra o botão de Responder
       // Verifica se há ID logado, senão, o botão é para Login
       const linkHref = usuarioLogado
-        ? `respostaForm.html?id=${desafio.id_desafio}`
+        ? `respostaForm.html?id=${desafio.id}` // <-- CORRIGIDO AQUI: desafio.id
         : "login.html";
       actionButton = `
             <a href="${linkHref}" class="btn btn-primary w-100 mt-3">
