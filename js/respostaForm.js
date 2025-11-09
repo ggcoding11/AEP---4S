@@ -71,9 +71,9 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       const dadosPitch = {
-        id_desafio: parseInt(desafioId),
-        id_aluno: usuarioLogado.id,
-        url_video_pitch: urlVideoPitch,
+        desafioId: parseInt(desafioId), // Antes: id_desafio
+        alunoId: parseInt(usuarioLogado.id), // Antes: id_aluno (e garante que é número)
+        urlVideoPitch: urlVideoPitch, // Antes: url_video_pitch
       };
 
       try {
