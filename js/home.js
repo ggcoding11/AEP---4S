@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Pega o ID da empresa logada (se existir)
     const usuarioLogado = JSON.parse(localStorage.getItem("usuario"));
 
-    const idDesafioEmpresa = parseInt(desafio.id_empresa);
+    const idDesafioEmpresa = parseInt(desafio.empresaId);
 
     const empresaLogadaId =
       usuarioLogado && usuarioLogado.tipo === "empresa"
