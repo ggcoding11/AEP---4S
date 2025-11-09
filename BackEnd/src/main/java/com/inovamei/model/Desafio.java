@@ -6,6 +6,8 @@ public class Desafio {
     private String descricao;
     private int empresaId;
     private String nomeEmpresa;
+    private String statusDesafio;
+
 
     // --- CONSTRUTOR VAZIO (O QUE O DAO PRECISA) ---
     public Desafio() {
@@ -35,4 +37,13 @@ public class Desafio {
 
     public String getNomeEmpresa() { return nomeEmpresa; }
     public void setNomeEmpresa(String nomeEmpresa) { this.nomeEmpresa = nomeEmpresa; }
+
+    public String getStatusDesafio() {
+        return statusDesafio;
+    }
+
+    // Setter (Este é o método que estava faltando!)
+    public void setStatusDesafio(String statusDesafio) {
+        this.statusDesafio = statusDesafio;
+    }
 }

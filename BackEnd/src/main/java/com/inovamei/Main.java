@@ -352,6 +352,58 @@ public class Main {
             }
         });
 
+        // --- ENDPOINT PARA CRIAR NOVO DESAFIO (POST) ---
+        server.createContext("/desafios/create", exchange -> {
+            if (isOptions(exchange)) { sendCors(exchange, 200, ""); return; }
+            if (!"POST".equalsIgnoreCase(exchange.getRequestMethod())) {
+                sendJson(exchange, 405, error("METHOD_NOT_ALLOWED", "Method Not Allowed. Use POST."));
+                return;
+            }
+
+            String body = readBody(exchange);
+            DesafioCreateRequest req;
+            try {
+                // Tenta mapear o JSON do frontend para o DTO
+                req = OM.readValue(body, DesafioCreateRequest.class);
+            } catch (Exception ex) {
+                sendJson(exchange, 400, error("BAD_REQUEST", "JSON inválido"));
+                return;
+            }
+
+            // Validação dos dados que vieram do formulário
+            if (isBlank(req.titulo) || isBlank(req.descricao) || req.id_empresa <= 0) {
+                sendJson(exchange, 400, error("VALIDATION_ERROR", "Campos obrigatórios: titulo, descricao, id_empresa"));
+                return;
+            }
+
+            try {
+                Desafio d = new Desafio();
+                d.setTitulo(trim(req.titulo));
+                d.setDescricao(trim(req.descricao));
+                d.setEmpresaId(req.id_empresa); // ID da empresa logada
+                // O DesafioDAO irá cuidar de popular a data_criacao e status_desafio (Pendente)
+
+                Desafio created = desafioDAO.create(d);
+
+                Map<String, Object> dto = new LinkedHashMap<>();
+                dto.put("id_desafio", created.getId());
+                dto.put("titulo", created.getTitulo());
+                dto.put("nomeEmpresa", created.getNomeEmpresa());
+
+                sendJson(exchange, 201, OM.writeValueAsString(Map.of("success", true, "desafio", dto)));
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                sendJson(exchange, 500, error("SERVER_ERROR", "Erro interno ao criar desafio"));
+            }
+        });
+
+        // --- ADICIONE OS IMPORTS NECESSÁRIOS NO TOPO DO ARQUIVO ---
+        // import com.inovamei.api.dto.DesafioCreateRequest;
+        // import com.inovamei.model.Desafio;
+
+        // ... (o restante do Main.java continua abaixo, incluindo /desafios) ...
+
         server.setExecutor(null);
         server.start();
         System.out.println("HTTP server started on port " + port);
