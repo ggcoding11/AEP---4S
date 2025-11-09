@@ -1,6 +1,11 @@
 package com.inovamei;
 
+import com.inovamei.dao.DesafioDAO;
+import com.inovamei.model.Desafio;
+import java.util.List;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import com.inovamei.api.dto.AlunoCreateRequest;
 import com.inovamei.api.dto.EmpresaCreateRequest;
 import com.inovamei.api.dto.LoginAlunoRequest;
@@ -32,8 +37,10 @@ public class Main {
             sendJson(exchange, 200, OM.writeValueAsString(Map.of("status", "ok")));
         });
 
-        EmpresaDAO empresaDAO = new EmpresaDAO();
         AlunoDAO alunoDAO = new AlunoDAO();
+        EmpresaDAO empresaDAO = new EmpresaDAO();
+        DesafioDAO desafioDAO = new DesafioDAO(); // <-- CRIE A INSTÂNCIA
+        Gson gson = new Gson();
 
         server.createContext("/empresas", exchange -> {
             if (isOptions(exchange)) { sendCors(exchange, 200, ""); return; }
@@ -237,9 +244,37 @@ public class Main {
                     });
         });
 
+        // --- ENDPOINT PARA BUSCAR TODOS OS DESAFIOS ---
+        server.createContext("/desafios", exchange -> {
+            try {
+                if (isOptions(exchange)) { sendCors(exchange, 200, ""); return; }
+
+                // Apenas GET é permitido
+                if (!"GET".equalsIgnoreCase(exchange.getRequestMethod())) {
+                    sendJson(exchange, 405, error("METHOD_NOT_ALLOWED", "Method Not Allowed"));
+                    return;
+                }
+
+                List<Desafio> desafios = desafioDAO.findAll();
+
+                // Converte a lista de desafios para JSON e envia
+                sendJson(exchange, 200, OM.writeValueAsString(Map.of("success", true, "desafios", desafios)));
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                try {
+                    sendJson(exchange, 500, error("INTERNAL_SERVER_ERROR", "Ocorreu um erro inesperado"));
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+            }
+        });
+        // --- FIM DO NOVO BLOCO ---
+
         server.setExecutor(null);
         server.start();
         System.out.println("HTTP server started on port " + port);
+
     }
 
     // --- Helpers ---
