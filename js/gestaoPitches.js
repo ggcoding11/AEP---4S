@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const status = desafio.statusDesafio || "Pendente";
       desafioStatusEl.textContent = status;
       desafioStatusEl.className = `badge ${
-        status === "Concluído" ? "bg-success" : "bg-warning"
+        status === "Fechado" ? "bg-success" : "bg-warning"
       }`;
 
       return desafio;
@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const desafioStatus = desafioStatusEl.textContent;
       const isConcluido =
-        desafioStatus === "Concluído" || // CORREÇÃO: Usar pitch.statusPitch (camelCase)
+        desafioStatus === "Fechado" || // CORREÇÃO: Usar pitch.statusPitch (camelCase)
         pitches.some((p) => p.statusPitch === "Vencedor");
 
       if (pitches.length === 0) {
@@ -97,7 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const selectWinner = async (pitchId) => {
     if (
       !confirm(
-        "Tem certeza que deseja selecionar este Pitch como o VENCEDOR? Esta ação marcará o desafio como CONCLUÍDO."
+        "Tem certeza que deseja selecionar este Pitch como o VENCEDOR? Esta ação marcará o desafio como FECHADO."
       )
     ) {
       return;
@@ -124,7 +124,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const result = await response.json();
 
       if (response.ok && result.success) {
-        alert("Vencedor selecionado e Desafio marcado como Concluído! 🎉"); // Recarrega TUDO para atualizar status e remover botões
+        alert("Vencedor selecionado e Desafio marcado como Fechado! 🎉"); // Recarrega TUDO para atualizar status e remover botões
         await fetchDesafioDetails();
         await fetchPitches();
       } else {

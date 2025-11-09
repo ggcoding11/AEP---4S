@@ -100,8 +100,8 @@ public class PitchDAO {
 
     public void markWinner(int pitchId, int desafioId) {
         String sqlWinner = "UPDATE pitches SET status_pitch = 'Vencedor' WHERE id_pitch = ? AND id_desafio = ?";
-        String sqlOthers = "UPDATE pitches SET status_pitch = 'Não Selecionado' WHERE id_desafio = ? AND id_pitch <> ?";
-        String sqlCloseDesafio = "UPDATE desafios SET status = 'Concluído' WHERE id_desafio = ?";
+        String sqlOthers = "UPDATE pitches SET status_pitch = 'Enviado' WHERE id_desafio = ? AND id_pitch <> ?";
+        String sqlCloseDesafio = "UPDATE desafios SET status = 'Fechado' WHERE id_desafio = ?";
 
         try (Connection conn = DatabaseConnection.getConnection()) {
             boolean origAuto = conn.getAutoCommit();
