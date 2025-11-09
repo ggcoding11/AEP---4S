@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // 1. Tenta pegar os dados do usuário e o tipo do sessionStorage
-  const usuarioString = sessionStorage.getItem("usuario");
-  const tipoUsuario = sessionStorage.getItem("tipoUsuario");
+  // 1. Tenta pegar os dados do usuário do LOCAL STORAGE (CORREÇÃO AQUI!)
+  const usuarioString = localStorage.getItem("usuario");
 
   // 2. Encontra os elementos do menu no HTML
   const navAnonimo = document.getElementById("nav-anonimo");
@@ -14,13 +13,14 @@ document.addEventListener("DOMContentLoaded", () => {
     // Converte o texto JSON de volta para um objeto
     const usuario = JSON.parse(usuarioString);
 
-    // Pega o nome (seja de aluno ou empresa)
-    const nome =
-      tipoUsuario === "aluno" ? usuario.nome_completo : usuario.nome_empresa;
+    // O objeto 'usuario' agora tem os campos 'nome' e 'tipo' graças à correção no login.js
+    const nomeCompleto = usuario.nome;
 
-    // Atualiza o menu
-    nomeUsuarioSpan.textContent = `Olá, ${nome.split(" ")[0]}`; // Mostra só o primeiro nome
-
+    // Atualiza o menu (Mostra só o primeiro nome)
+    if (nomeUsuarioSpan && nomeCompleto) {
+        nomeUsuarioSpan.textContent = `Olá, ${nomeCompleto.split(" ")[0]}`; 
+    }
+    
     // Esconde "Login/Cadastrar" e mostra "Olá, [Nome] / Sair"
     navAnonimo.classList.add("d-none");
     navLogado.classList.remove("d-none");
@@ -28,9 +28,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // 4. Adiciona a função de Sair (Logout)
     if (btnLogout) {
       btnLogout.addEventListener("click", () => {
-        // Limpa os dados do navegador
-        sessionStorage.removeItem("usuario");
-        sessionStorage.removeItem("tipoUsuario");
+        // Limpa APENAS o localStorage (CORREÇÃO AQUI!)
+        localStorage.removeItem("usuario");
 
         // Redireciona para o login
         alert("Você saiu da sua conta.");
@@ -39,15 +38,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   } else {
     // 5. Se NÃO ESTÁ logado, faz o contrário
-    navAnonimo.classList.remove("d-none");
-    navLogado.classList.add("d-none");
+    if (navAnonimo) navAnonimo.classList.remove("d-none");
+    if (navLogado) navLogado.classList.add("d-none");
   }
 
-  // 6. (Opcional) Proteção de Página
-  // Se a página atual NÃO for login.html ou cadastro.html E o usuário NÃO estiver logado,
-  // força o redirecionamento para o login.
+  // 6. Proteção de Página (Mantida)
   const paginaAtual = window.location.pathname.split("/").pop();
-  const paginasPublicas = ["login.html", "cadastro.html", "home.html", ""]; // "" é a raiz, se aplicável
+  const paginasPublicas = ["login.html", "cadastro.html", "home.html", ""];
 
   if (!usuarioString && !paginasPublicas.includes(paginaAtual)) {
     console.warn("Usuário não logado. Redirecionando para login.");
