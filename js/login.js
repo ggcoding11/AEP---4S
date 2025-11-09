@@ -9,10 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
       event.preventDefault();
       const email = document.getElementById("input-email-aluno").value;
       const senha = document.getElementById("input-senha-aluno").value;
-      const loginData = {
-        email_institucional: email,
-        senha: senha,
-      };
+      const loginData = { email_institucional: email, senha: senha };
 
       try {
         const response = await fetch("http://localhost:4567/login-aluno", {
@@ -21,12 +18,19 @@ document.addEventListener("DOMContentLoaded", () => {
           body: JSON.stringify(loginData),
         });
         const data = await response.json();
+
         if (data.success) {
           alert("Login de aluno realizado com sucesso!");
-          // Salva os dados do usuário no navegador
-          sessionStorage.setItem("usuario", JSON.stringify(data.aluno));
-          sessionStorage.setItem("tipoUsuario", "aluno");
-          // Redireciona para a home
+
+          // CORRIGIDO: Salvando em localStorage com tipo='aluno'
+          const usuarioLogado = {
+            id: data.aluno.id_aluno,
+            nome: data.aluno.nome_completo,
+            email: data.aluno.email_institucional,
+            tipo: "aluno",
+          };
+          localStorage.setItem("usuario", JSON.stringify(usuarioLogado));
+
           window.location.href = "home.html";
         } else {
           alert("Erro no login: " + data.error.message);
@@ -45,13 +49,9 @@ document.addEventListener("DOMContentLoaded", () => {
     formEmpresa.addEventListener("submit", async (event) => {
       event.preventDefault();
 
-      // ID CORRIGIDO para bater com login.html
       const cnpj = document.getElementById("input-cnpj-login").value;
       const senha = document.getElementById("input-senha-empresa").value;
-      const loginData = {
-        cnpj: cnpj,
-        senha: senha,
-      };
+      const loginData = { cnpj: cnpj, senha: senha };
 
       try {
         const response = await fetch("http://localhost:4567/login-empresa", {
@@ -60,10 +60,19 @@ document.addEventListener("DOMContentLoaded", () => {
           body: JSON.stringify(loginData),
         });
         const data = await response.json();
+
         if (data.success) {
           alert("Login de empresa realizado com sucesso!");
-          sessionStorage.setItem("usuario", JSON.stringify(data.empresa));
-          sessionStorage.setItem("tipoUsuario", "empresa");
+
+          // CORRIGIDO: Salvando em localStorage com tipo='empresa'
+          const usuarioLogado = {
+            id: data.empresa.id_empresa,
+            nome: data.empresa.nome_empresa,
+            cnpj: data.empresa.cnpj,
+            tipo: "empresa",
+          };
+          localStorage.setItem("usuario", JSON.stringify(usuarioLogado));
+
           window.location.href = "home.html";
         } else {
           alert("Erro no login: " + data.error.message);
