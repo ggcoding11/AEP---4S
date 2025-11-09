@@ -54,12 +54,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const renderDesafioCard = (desafio) => {
     // Pega o ID da empresa logada (se existir)
     const usuarioLogado = JSON.parse(localStorage.getItem("usuario"));
+
+    const idDesafioEmpresa = parseInt(desafio.id_empresa);
+
     const empresaLogadaId =
       usuarioLogado && usuarioLogado.tipo === "empresa"
-        ? usuarioLogado.id
+        ? parseInt(usuarioLogado.id)
         : null;
 
-    const isEmpresaDona = desafio.id_empresa === empresaLogadaId;
+    const isEmpresaDona = idDesafioEmpresa === empresaLogadaId;
 
     // Converte a descrição para um resumo
     const resumo =
