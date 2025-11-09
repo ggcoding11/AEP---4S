@@ -398,6 +398,40 @@ public class Main {
             }
         });
 
+        server.createContext("/desafios/pitches", exchange -> {
+            if (isOptions(exchange)) { sendCors(exchange, 200, ""); return; }
+            if (!"GET".equalsIgnoreCase(exchange.getRequestMethod())) {
+                sendJson(exchange, 405, error("METHOD_NOT_ALLOWED", "Method Not Allowed. Use GET."));
+                return;
+            }
+
+            // 1. Obtém os parâmetros da URL (requer o helper getQueryParams abaixo)
+            // URL esperado: /desafios/pitches?id={id_desafio}
+            Map<String, String> params = getQueryParams(exchange);
+            String idDesafioStr = params.get("id");
+
+            if (isBlank(idDesafioStr)) {
+                sendJson(exchange, 400, error("VALIDATION_ERROR", "ID do desafio não fornecido (id=X)"));
+                return;
+            }
+
+            try {
+                int idDesafio = Integer.parseInt(idDesafioStr);
+
+                // 2. Chama o DAO (Método que você acabou de criar no PitchDAO)
+                List<Pitch> pitches = pitchDAO.findByDesafioId(idDesafio);
+
+                // 3. Retorna a lista de pitches
+                sendJson(exchange, 200, OM.writeValueAsString(Map.of("success", true, "pitches", pitches)));
+
+            } catch (NumberFormatException ex) {
+                sendJson(exchange, 400, error("BAD_REQUEST", "ID do desafio inválido"));
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                sendJson(exchange, 500, error("SERVER_ERROR", "Erro interno ao buscar pitches"));
+            }
+        });
+
         // --- ADICIONE OS IMPORTS NECESSÁRIOS NO TOPO DO ARQUIVO ---
         // import com.inovamei.api.dto.DesafioCreateRequest;
         // import com.inovamei.model.Desafio;
@@ -413,6 +447,26 @@ public class Main {
     // --- Helpers ---
     private static boolean isOptions(HttpExchange ex) {
         return "OPTIONS".equalsIgnoreCase(ex.getRequestMethod());
+    }
+
+    private static Map<String, String> getQueryParams(HttpExchange exchange) {
+        String query = exchange.getRequestURI().getQuery();
+        Map<String, String> params = new LinkedHashMap<>();
+        if (query != null) {
+            String[] pairs = query.split("&");
+            for (String pair : pairs) {
+                int idx = pair.indexOf("=");
+                try {
+                    String key = idx > 0 ? java.net.URLDecoder.decode(pair.substring(0, idx), StandardCharsets.UTF_8.name()) : pair;
+                    // Note: Usamos java.net.URLDecoder para garantir que caracteres especiais sejam lidos corretamente
+                    String value = idx > 0 && pair.length() > idx + 1 ? java.net.URLDecoder.decode(pair.substring(idx + 1), StandardCharsets.UTF_8.name()) : null;
+                    params.put(key, value);
+                } catch (java.io.UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return params;
     }
 
     private static void sendCors(HttpExchange exchange, int code, String body) throws IOException {

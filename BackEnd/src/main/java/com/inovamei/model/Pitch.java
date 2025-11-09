@@ -9,6 +9,11 @@ public class Pitch {
     private String urlVideoPitch;
     private LocalDateTime dataEnvio;
     private String statusPitch;
+    private String alunoNome;
+
+    // ... (restante dos campos)
+
+
 
     // Construtor vazio (para uso do DAO)
     public Pitch() {}
@@ -16,6 +21,14 @@ public class Pitch {
     // Getters and Setters
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
+
+    public String getAlunoNome() {
+        return alunoNome;
+    }
+
+    public void setAlunoNome(String alunoNome) {
+        this.alunoNome = alunoNome;
+    }
 
     public int getDesafioId() { return desafioId; }
     public void setDesafioId(int desafioId) { this.desafioId = desafioId; }

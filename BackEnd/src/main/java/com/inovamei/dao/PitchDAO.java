@@ -9,6 +9,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PitchDAO {
 
@@ -53,5 +55,41 @@ public class PitchDAO {
             throw new RuntimeException("Erro ao criar o pitch: " + e.getMessage(), e);
         }
         return pitch;
+    }
+
+    public List<Pitch> findByDesafioId(int desafioId) {
+        // SQL para buscar pitches E os dados básicos do ALUNO que enviou
+        String sql = "SELECT p.id_pitch, p.url_video_pitch, p.status_pitch, p.data_envio, " +
+                "a.id_aluno, a.nome_completo, a.curso, a.semestre " +
+                "FROM pitches p " +
+                "JOIN alunos a ON p.id_aluno = a.id_aluno " +
+                "WHERE p.id_desafio = ? " +
+                "ORDER BY p.data_envio DESC";
+
+        List<Pitch> pitches = new ArrayList<>();
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, desafioId);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    Pitch pitch = new Pitch();
+                    pitch.setId(rs.getInt("id_pitch"));
+                    pitch.setUrlVideoPitch(rs.getString("url_video_pitch"));
+                    pitch.setStatusPitch(rs.getString("status_pitch"));
+
+                    // Note que Pitch deve ter um campo para o nome do aluno
+                    pitch.setAlunoNome(rs.getString("nome_completo"));
+                    pitch.setAlunoId(rs.getInt("id_aluno"));
+
+                    pitches.add(pitch);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao buscar pitches por ID do desafio: " + e.getMessage(), e);
+        }
+        return pitches;
     }
 }
