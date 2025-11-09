@@ -1,20 +1,19 @@
 package com.inovamei;
 
+import com.inovamei.api.dto.*;
 import com.inovamei.dao.DesafioDAO;
+import com.inovamei.dao.PitchDAO;
 import com.inovamei.model.Desafio;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
-import com.inovamei.api.dto.AlunoCreateRequest;
-import com.inovamei.api.dto.EmpresaCreateRequest;
-import com.inovamei.api.dto.LoginAlunoRequest;
-import com.inovamei.api.dto.LoginEmpresaRequest;
 import com.inovamei.dao.EmpresaDAO;
 import com.inovamei.model.Empresa;
 import com.inovamei.dao.AlunoDAO;
 import com.inovamei.model.Aluno;
 
+import com.inovamei.model.Pitch;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
 
@@ -40,6 +39,7 @@ public class Main {
         AlunoDAO alunoDAO = new AlunoDAO();
         EmpresaDAO empresaDAO = new EmpresaDAO();
         DesafioDAO desafioDAO = new DesafioDAO(); // <-- CRIE A INSTÂNCIA
+        PitchDAO pitchDAO = new PitchDAO(); // <-- ADICIONE ESTA LINHA
         Gson gson = new Gson();
 
         server.createContext("/empresas", exchange -> {
@@ -298,6 +298,59 @@ public class Main {
         });
         // --- FIM DO NOVO BLOCO ---
         // --- FIM DO NOVO BLOCO ---
+
+        // --- NOVO ENDPOINT PARA ENVIAR PITCH (POST) ---
+        server.createContext("/pitches/create", exchange -> {
+            if (isOptions(exchange)) { sendCors(exchange, 200, ""); return; }
+            if (!"POST".equalsIgnoreCase(exchange.getRequestMethod())) {
+                sendJson(exchange, 405, error("METHOD_NOT_ALLOWED", "Method Not Allowed"));
+                return;
+            }
+
+            String body = readBody(exchange);
+            PitchCreateRequest req;
+            try {
+                // Tenta ler o JSON do corpo (o DTO que o JS enviou)
+                req = OM.readValue(body, PitchCreateRequest.class);
+            } catch (Exception ex) {
+                sendJson(exchange, 400, error("BAD_REQUEST", "JSON inválido"));
+                return;
+            }
+
+            // Validação simples
+            if (req.id_aluno <= 0 || req.id_desafio <= 0 || isBlank(req.url_video_pitch)) {
+                sendJson(exchange, 400, error("VALIDATION_ERROR", "Campos obrigatórios ausentes ou inválidos (id_aluno, id_desafio, url_video_pitch)"));
+                return;
+            }
+
+            try {
+                // Mapeia o DTO para o Model
+                Pitch novoPitch = new Pitch();
+                novoPitch.setAlunoId(req.id_aluno);
+                novoPitch.setDesafioId(req.id_desafio);
+                novoPitch.setUrlVideoPitch(trim(req.url_video_pitch));
+
+                // Cria no banco (o DAO cuida do INSERT)
+                Pitch criado = pitchDAO.create(novoPitch);
+
+                // Resposta de sucesso
+                Map<String, Object> dto = new LinkedHashMap<>();
+                dto.put("id_pitch", criado.getId());
+                dto.put("status", criado.getStatusPitch());
+
+                sendJson(exchange, 201, OM.writeValueAsString(Map.of("success", true, "pitch", dto)));
+            } catch (RuntimeException e) {
+                if (e.getMessage().startsWith("DUPLICATE_PITCH")) {
+                    sendJson(exchange, 409, error("DUPLICATE_PITCH", "Você já enviou um pitch para este desafio."));
+                } else {
+                    e.printStackTrace();
+                    sendJson(exchange, 500, error("INTERNAL_SERVER_ERROR", "Ocorreu um erro ao salvar o pitch: " + e.getMessage()));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                sendJson(exchange, 500, error("INTERNAL_SERVER_ERROR", "Ocorreu um erro inesperado."));
+            }
+        });
 
         server.setExecutor(null);
         server.start();
