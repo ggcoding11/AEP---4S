@@ -10,6 +10,8 @@ public class Pitch {
     private LocalDateTime dataEnvio;
     private String statusPitch;
     private String alunoNome;
+    private String curso;
+    private Integer semestre;
 
     // ... (restante dos campos)
 
@@ -44,4 +46,10 @@ public class Pitch {
 
     public String getStatusPitch() { return statusPitch; }
     public void setStatusPitch(String statusPitch) { this.statusPitch = statusPitch; }
+
+    public String getCurso() { return curso; }
+    public void setCurso(String curso) { this.curso = curso; }
+
+    public Integer getSemestre() { return semestre; }
+    public void setSemestre(Integer semestre) { this.semestre = semestre; }
 }

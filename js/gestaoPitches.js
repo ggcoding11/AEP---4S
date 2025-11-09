@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const fetchDesafioDetails = async () => {
     try {
       const response = await fetch(
-        `http://localhost:4567/desafios/${desafioId}`
+        `http://localhost:8090/desafios/${desafioId}`
       );
       if (!response.ok) throw new Error("Desafio não encontrado");
 
@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const fetchPitches = async () => {
     try {
       const response = await fetch(
-        `http://localhost:4567/desafios/pitches?id=${desafioId}`
+        `http://localhost:8090/desafios/pitches?id=${desafioId}`
       );
       if (!response.ok) throw new Error("Falha ao carregar pitches");
 
@@ -115,7 +115,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try {
       // Chama o novo endpoint PUT no Backend
-      const response = await fetch("http://localhost:4567/pitches/vencedor", {
+      const response = await fetch("http://localhost:8090/pitches/vencedor", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),

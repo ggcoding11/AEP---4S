@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try {
       // 3. Faz a "ligação" (fetch) para o backend
-      const response = await fetch("http://localhost:4567/desafios");
+      const response = await fetch("http://localhost:8090/desafios");
 
       if (!response.ok) {
         throw new Error("Não foi possível carregar os desafios.");

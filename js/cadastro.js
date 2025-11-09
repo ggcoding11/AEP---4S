@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
       };
 
       try {
-        const response = await fetch("http://localhost:4567/alunos", {
+        const response = await fetch("http://localhost:8090/alunos", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(alunoData),
@@ -99,7 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
       };
 
       try {
-        const response = await fetch("http://localhost:4567/empresas", {
+        const response = await fetch("http://localhost:8090/empresas", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(empresaData),

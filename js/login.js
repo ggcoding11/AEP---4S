@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const loginData = { email_institucional: email, senha: senha };
 
       try {
-        const response = await fetch("http://localhost:4567/login-aluno", {
+        const response = await fetch("http://localhost:8090/login-aluno", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(loginData),
@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const loginData = { cnpj: cnpj, senha: senha };
 
       try {
-        const response = await fetch("http://localhost:4567/login-empresa", {
+        const response = await fetch("http://localhost:8090/login-empresa", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(loginData),

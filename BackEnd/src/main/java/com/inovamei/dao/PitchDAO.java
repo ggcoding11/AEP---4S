@@ -83,6 +83,11 @@ public class PitchDAO {
                     // Note que Pitch deve ter um campo para o nome do aluno
                     pitch.setAlunoNome(rs.getString("nome_completo"));
                     pitch.setAlunoId(rs.getInt("id_aluno"));
+                    try {
+                        pitch.setCurso(rs.getString("curso"));
+                        int sem = rs.getInt("semestre");
+                        pitch.setSemestre(rs.wasNull() ? null : sem);
+                    } catch (Exception ignored) {}
 
                     pitches.add(pitch);
                 }
@@ -91,5 +96,40 @@ public class PitchDAO {
             throw new RuntimeException("Erro ao buscar pitches por ID do desafio: " + e.getMessage(), e);
         }
         return pitches;
+    }
+
+    public void markWinner(int pitchId, int desafioId) {
+        String sqlWinner = "UPDATE pitches SET status_pitch = 'Vencedor' WHERE id_pitch = ? AND id_desafio = ?";
+        String sqlOthers = "UPDATE pitches SET status_pitch = 'Não Selecionado' WHERE id_desafio = ? AND id_pitch <> ?";
+        String sqlCloseDesafio = "UPDATE desafios SET status = 'Concluído' WHERE id_desafio = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            boolean origAuto = conn.getAutoCommit();
+            conn.setAutoCommit(false);
+            try (PreparedStatement ps1 = conn.prepareStatement(sqlWinner);
+                 PreparedStatement ps2 = conn.prepareStatement(sqlOthers);
+                 PreparedStatement ps3 = conn.prepareStatement(sqlCloseDesafio)) {
+
+                ps1.setInt(1, pitchId);
+                ps1.setInt(2, desafioId);
+                ps1.executeUpdate();
+
+                ps2.setInt(1, desafioId);
+                ps2.setInt(2, pitchId);
+                ps2.executeUpdate();
+
+                ps3.setInt(1, desafioId);
+                ps3.executeUpdate();
+
+                conn.commit();
+            } catch (SQLException e) {
+                conn.rollback();
+                throw new RuntimeException("Erro ao marcar vencedor: " + e.getMessage(), e);
+            } finally {
+                conn.setAutoCommit(origAuto);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro de conexão ao marcar vencedor: " + e.getMessage(), e);
+        }
     }
 }

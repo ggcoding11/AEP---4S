@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
   async function carregarDetalhesDesafio() {
     try {
       const response = await fetch(
-        `http://localhost:4567/desafios/${desafioId}`
+        `http://localhost:8090/desafios/${desafioId}`
       );
 
       // Ação: Esconde o spinner de "carregando"
@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
       };
 
       try {
-        const response = await fetch("http://localhost:4567/pitches/create", {
+        const response = await fetch("http://localhost:8090/pitches/create", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(dadosPitch),

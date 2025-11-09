@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
       };
 
       try {
-        const response = await fetch("http://localhost:4567/desafios/create", {
+        const response = await fetch("http://localhost:8090/desafios/create", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(dados),
